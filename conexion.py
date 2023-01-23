@@ -438,3 +438,37 @@ class Conexion():
 
         except Exception as error:
             print('Problema al mostrar el listado de servicios:', error)
+
+    def mostrarTabFacturas(self):
+        try :
+            index = 0
+            query = QtSql.QSqlQuery()
+            query.prepare('select * from facturas')
+
+            if query.exec():
+                while query.next():
+                    var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
+                    var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
+                    var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
+                    var.ui.tabFacturas.setItem(index, 2, QtWidgets.QTableWidgetItem(str(query.value(3))))
+                    var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabFacturas.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    index += 1
+
+        except Exception as error:
+            print('Problema al mostrar el listado de facturas:', error)
+
+
+    def oneFac(idfac):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('select matfac from facturas where idfac = :idfac')
+            query.bindValue(':idfac', str(idfac))
+            if query.exec():
+                for i in range(1):
+                    registro = (str(query.value(i)))
+                return registro
+
+        except Exception as e:
+            print('Error en oneFac:', e)

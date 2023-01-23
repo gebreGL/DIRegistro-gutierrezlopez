@@ -1,3 +1,4 @@
+import facturas
 import informes
 import servicios
 from dlgExportar import Ui_dlgExportar
@@ -53,7 +54,7 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.conexion()
         conexion.Conexion.mostrarTabcarcli(self)
 
-        conexion.Conexion.mostrarTabServicios(self)
+        conexion.Conexion.mostrarTabFacturas(self)
 
         '''
         Listado de eventos menú
@@ -116,6 +117,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaCliente)
 
         var.ui.tabServizos.clicked.connect(servicios.Servicios.cargaServicio)
+
+        var.ui.tabFacturas.clicked.connect(facturas.Facturas.cargaFactura)
 
 class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):
