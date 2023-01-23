@@ -104,8 +104,7 @@ class Conexion():
     def altaServicio(newservicio):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('insert into servicios (concepto, precio-unidad) '
-                          'VALUES (:concepto, :precio-unidad)')
+            query.prepare('insert into servicios VALUES (:concepto, :precio-unidad)')
 
             query.bindValue(':concepto', str(newservicio[0]))
             query.bindValue(':precio-unidad', str(newservicio[1]))
@@ -466,8 +465,7 @@ class Conexion():
             query.prepare('select matfac from facturas where idfac = :idfac')
             query.bindValue(':idfac', str(idfac))
             if query.exec():
-                for i in range(1):
-                    registro = (str(query.value(i)))
+                registro = (str(query.value(0)))
                 return registro
 
         except Exception as e:

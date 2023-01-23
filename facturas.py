@@ -1,5 +1,3 @@
-from PyQt6 import QtSql
-
 import conexion
 import var
 from clientes import Clientes
@@ -28,10 +26,6 @@ class Facturas():
 
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
-
-            var.ui.txtNumFactura.setText(row[0])
-            var.ui.txtDNIFactura.setText(row[1])
-            var.ui.txtFechaFactura.setText(row[2])
 
             matricula = conexion.Conexion.oneFac(row[0])
             var.ui.txtMatriculaFactura.setText(str(matricula))
