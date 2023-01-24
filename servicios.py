@@ -24,6 +24,7 @@ class Servicios():
                 newservicio.append(i.text())
 
             conexion.Conexion.altaServicio(newservicio)
+            conexion.Conexion.mostrarTabServicios(self)
             print(newservicio)
 
         except Exception as error:
@@ -41,8 +42,7 @@ class Servicios():
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
 
-            var.ui.txtConcepto.setText(row[1])
-            var.ui.txtPrecio.setText(row[2])
+
 
         except Exception as e:
             print('Error carga servicio:', e)
