@@ -10,4 +10,6 @@ global dlgAbrir
 global bbdd
 global dlgExportar
 global report
+global cmbServicio
+global txtUnidades
 

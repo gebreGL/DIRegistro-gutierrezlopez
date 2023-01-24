@@ -91,6 +91,8 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.chkHistorico.stateChanged.connect(conexion.Conexion.mostrarHistorico)
 
+        facturas.Facturas.cargaLineaVenta(0)
+
 
         '''
         Listado de eventos de botones
@@ -112,6 +114,9 @@ class Main(QtWidgets.QMainWindow):
         '''
         conexion.Conexion.mostrarTabcarcli(self)
         conexion.Conexion.mostrarTabServicios(self)
+
+        conexion.Conexion.cargaComboVenta(self)
+
         events.Eventos.resizeTablacarcli(self)
         #var.ui.tabClientes.setTelectionBehavior(QtWidgets.QTableWidget.S)
         var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaCliente)
@@ -119,6 +124,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.tabServizos.clicked.connect(servicios.Servicios.cargaServicio)
 
         var.ui.tabFacturas.clicked.connect(facturas.Facturas.cargaFactura)
+
+        events.Eventos.resizeTablaventas(self)
 
 class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):

@@ -208,3 +208,13 @@ class Eventos:
 
         except Exception as error:
             print('Error al importar datos:', error)
+
+    def resizeTablaventas(self):
+        try:
+            header = var.ui.tabVentas.horizontalHeader()
+            for i in range(3):
+                if i == 0 or i == 1:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+        except Exception as error:
+            print('Error:', error)

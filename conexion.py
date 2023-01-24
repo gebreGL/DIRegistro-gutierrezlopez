@@ -450,10 +450,8 @@ class Conexion():
                     var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
                     var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
                     var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
-                    var.ui.tabFacturas.setItem(index, 2, QtWidgets.QTableWidgetItem(str(query.value(3))))
                     var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    var.ui.tabFacturas.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     index += 1
 
         except Exception as error:
@@ -472,3 +470,16 @@ class Conexion():
 
         except Exception as e:
             print('Error en oneFac:', e)
+
+
+    def cargaComboVenta(self):
+        try:
+            var.cmbServicio.clear()
+            query = QtSql.QSqlQuery()
+            query.prepare('select concepto from servicios order by concepto')
+            if query.exec():
+                while query.next():
+                    var.cmbServicio.addItem(str(query.value(0)))
+
+        except Exception as e:
+            print('Error en carga comboBox ventas:', e)
