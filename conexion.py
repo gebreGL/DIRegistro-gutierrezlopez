@@ -216,12 +216,12 @@ class Conexion():
         try:
             registro = []
             query = QtSql.QSqlQuery()
-            query.prepare('select nombre, alta, direccion, provincia, municipio, pago from '
+            query.prepare('select nombre, alta, direccion, provincia, municipio, pago, factura from '
                           'clientes where dni = :dni')
             query.bindValue(':dni', str(dni))
             if query.exec():
                 while query.next():
-                    for i in range(6):
+                    for i in range(7):
                         registro.append(str(query.value(i)))
             return registro
 
@@ -456,15 +456,17 @@ class Conexion():
         except Exception as error:
             print('Problema al mostrar el listado de facturas:', error)
 
-
-    def oneFac(idfac):
+    def oneFac(idFactura):
         try:
+            factura = []
             query = QtSql.QSqlQuery()
-            query.prepare('select matfac from facturas where idfac = :idfac')
-            query.bindValue(':idfac', str(idfac))
+            query.prepare('select dni, matfac, fechafac from facturas where idfac = :idfac')
+            query.bindValue(':idfac', str(idFactura))
             if query.exec():
-                registro = (str(query.value(0)))
-                return registro
+                while query.next():
+                    for i in range(3):
+                        factura.append(str(query.value(i)))
+            return factura
 
         except Exception as e:
             print('Error en oneFac:', e)
@@ -481,3 +483,19 @@ class Conexion():
 
         except Exception as e:
             print('Error en carga comboBox ventas:', e)
+
+
+    def restoDatosFactura(numFactura):
+        try:
+            datos = []
+            query = QtSql.QSqlQuery()
+            query.prepare('select matfac, fechafac from facturas where idfac = :idfac')
+            query.bindValue(':idfac', str(numFactura))
+            if query.exec():
+                while query.next():
+                    for i in range(2):
+                        datos.append(str(query.value(i)))
+            return datos
+
+        except Exception as e:
+            print('Error al cargar resto de datos de la factura', e)

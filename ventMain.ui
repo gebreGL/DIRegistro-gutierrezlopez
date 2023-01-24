@@ -45,6 +45,12 @@
       <height>611</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>150</width>
+      <height>0</height>
+     </size>
+    </property>
     <property name="currentIndex">
      <number>1</number>
     </property>
@@ -1352,7 +1358,7 @@
         <x>50</x>
         <y>50</y>
         <width>131</width>
-        <height>22</height>
+        <height>24</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1510,7 +1516,7 @@
        <rect>
         <x>470</x>
         <y>540</y>
-        <width>201</width>
+        <width>236</width>
         <height>25</height>
        </rect>
       </property>
@@ -1527,6 +1533,18 @@
        </item>
        <item>
         <widget class="QLabel" name="lblRecuadroSubtotal">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(255, 248, 193);</string>
          </property>
@@ -1543,7 +1561,7 @@
      <widget class="QPushButton" name="btnProcesarVenta">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>350</x>
         <y>540</y>
         <width>100</width>
         <height>23</height>
@@ -1711,7 +1729,7 @@
        <rect>
         <x>260</x>
         <y>150</y>
-        <width>335</width>
+        <width>338</width>
         <height>22</height>
        </rect>
       </property>
@@ -1824,7 +1842,7 @@
         <x>130</x>
         <y>80</y>
         <width>490</width>
-        <height>22</height>
+        <height>24</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1927,7 +1945,7 @@
      <x>0</x>
      <y>0</y>
      <width>825</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">
@@ -2074,14 +2092,14 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupPago">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="btnGroup">
    <property name="exclusive">
     <bool>true</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroupPago">
+   <property name="exclusive">
+    <bool>false</bool>
    </property>
   </buttongroup>
  </buttongroups>

@@ -24,17 +24,18 @@ class Facturas():
             Facturas.limpiaFact()
             fila = var.ui.tabFacturas.selectedItems()
             row = [dato.text() for dato in fila] # Recoge todo lo que hay en cada fila de la tabla
-            datos = [var.ui.txtNumFactura, var.ui.txtDNIFactura, var.ui.txtFechaFactura]
+            datos = [var.ui.txtNumFactura, var.ui.txtDNIFactura]
 
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
 
             var.ui.txtNumFactura.setText(row[0])
             var.ui.txtDNIFactura.setText(row[1])
-            var.ui.txtFechaFactura.setText(row[2])
 
-            matricula = conexion.Conexion.oneFac(row[0])
-            var.ui.txtMatriculaFactura.setText(str(matricula))
+            restoDatos = conexion.Conexion.restoDatosFactura(row[0])
+
+            var.ui.txtMatriculaFactura.setText(restoDatos[0])
+            var.ui.txtFechaFactura.setText(restoDatos[1])
 
         except Exception as e:
             print('Error carga factura:', e)
@@ -43,7 +44,7 @@ class Facturas():
         try:
             index = 0
             var.cmbServicio = QtWidgets.QComboBox()
-            var.cmbServicio.setFixedSize(140, 30)
+            var.cmbServicio.setFixedSize(140, 28)
             var.txtUnidades = QtWidgets.QLineEdit()
             var.txtUnidades.setFixedSize(140, 30)
             var.txtUnidades.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)

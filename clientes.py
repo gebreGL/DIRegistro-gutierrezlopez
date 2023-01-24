@@ -1,5 +1,6 @@
 import clientes
 import conexion
+import facturas
 import var
 from ventMain import *
 
@@ -178,6 +179,7 @@ class Clientes():
     def cargaCliente(self=None):
         try:
             Clientes.limpiaCli()
+            facturas.Facturas.limpiaFact()
             fila = var.ui.tabClientes.selectedItems()
             row = [dato.text() for dato in fila] # Recoge todo lo que hay en cada fila de la tabla
             datos = [var.ui.txtDNI, var.ui.txtMatricula, var.ui.txtMarca, var.ui.txtModelo]
@@ -200,6 +202,7 @@ class Clientes():
             var.ui.txtDir.setText(registro[2])
             var.ui.cbProvincia.setCurrentText(str(registro[3]))
             var.ui.cbMunicipio.setCurrentText(str(registro[4]))
+            var.ui.txtNumFactura.setText(str(registro[6]))
 
             if 'Efectivo' in registro[5]:
                 var.ui.chkEfectivo.setChecked(True)
@@ -207,6 +210,15 @@ class Clientes():
                 var.ui.chkTarj.setChecked(True)
             if 'Transferencia' in registro[5]:
                 var.ui.chkTrans.setChecked(True)
+
+            if not registro[6] :
+                pass
+            else :
+                factura = conexion.Conexion.oneFac(registro[6])
+                var.ui.txtDNIFactura.setText(factura[0])
+                var.ui.txtMatriculaFactura.setText(factura[1])
+                var.ui.txtFechaFactura.setText(factura[2])
+
 
         except Exception as e:
             print('Error carga cliente:', e)
