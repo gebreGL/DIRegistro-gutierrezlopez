@@ -1,4 +1,4 @@
-from PyQt6 import QtSql
+from PyQt6 import QtSql, QtWidgets, QtCore
 
 import conexion
 import var
@@ -38,3 +38,18 @@ class Facturas():
 
         except Exception as e:
             print('Error carga factura:', e)
+
+    def cargaLineaVenta(index):
+        try:
+            index = 0
+            var.cmbServicio = QtWidgets.QComboBox()
+            var.cmbServicio.setFixedSize(140, 30)
+            var.txtUnidades = QtWidgets.QLineEdit()
+            var.txtUnidades.setFixedSize(140, 30)
+            var.txtUnidades.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            var.ui.tabVentas.setRowCount(index + 1)
+            var.ui.tabVentas.setCellWidget(index, 0, var.cmbServicio)
+            var.ui.tabVentas.setCellWidget(index, 2, var.txtUnidades)
+
+        except Exception as e:
+            print("Error carga linea venta:", e)
