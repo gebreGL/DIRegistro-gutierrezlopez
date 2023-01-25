@@ -48,7 +48,31 @@ class Eventos:
                 if i == 0 or i == 1:
                     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
         except Exception as error:
-            print('Error:', error)
+            print('Error al reajustar tabla clientes:', error)
+
+
+    def resizeTablaServicios(self):
+        try:
+            header = var.ui.tabServizos.horizontalHeader()
+            for i in range(3):
+                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                if i == 0 or i == 1:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        except Exception as error:
+            print('Error al reajustar tabla Servicios:', error)
+
+    '''
+    def resizeTablaFacturas(self):
+        try:
+            header = var.ui.tabFacturas.horizontalHeader()
+            for i in range(1):
+                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+                if i == 0 or i == 1:
+                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+        except Exception as error:
+            print('Error al reajustar tabla Facturas:', error)
+    '''
+
 
     def creaBackup(self):
         try:

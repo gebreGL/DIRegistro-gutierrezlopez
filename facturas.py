@@ -54,3 +54,34 @@ class Facturas():
 
         except Exception as e:
             print("Error carga linea venta:", e)
+
+
+    def cargaPrecioVenta(self):
+        try:
+            row = var.ui.tabVentas.currentRow()
+            servicio = var.cmbServicio.currentText()
+            precio = conexion.Conexion.obtenerPrecio(servicio)
+            var.precio = precio
+            precio = precio.replace('.', ',')
+            precio = precio + ' €'
+            var.ui.tabVentas.setItem(row, 1, QtWidgets.QTableWidgetItem(str(precio)))
+            var.ui.tabVentas.item(row, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+
+        except Exception as e:
+            print("Error al cargar precio de venta:", e)
+
+
+    def totalLineaVenta(self = None):
+        try:
+            row = var.ui.tabVentas.currentRow()
+            cantidad = round(float(var.txtUnidades.text().replace(',', '.')), 2)
+            totalFilaVenta = round(float(var.precio), 2) * round(float(cantidad), 2)
+
+            var.ui.tabVentas = totalFilaVenta.replace('.', ',') + ' €'
+            var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
+            var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+
+        except Exception as e:
+            print("Error al cargar total de la linea de venta:", e)

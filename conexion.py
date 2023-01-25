@@ -478,6 +478,7 @@ class Conexion():
             query = QtSql.QSqlQuery()
             query.prepare('select concepto from servicios order by concepto')
             if query.exec():
+                var.cmbServicio.addItem('')
                 while query.next():
                     var.cmbServicio.addItem(str(query.value(0)))
 
@@ -499,3 +500,17 @@ class Conexion():
 
         except Exception as e:
             print('Error al cargar resto de datos de la factura', e)
+
+
+    def obtenerPrecio(servicio):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('select preciounidad from servicios where concepto = :servicio')
+            query.bindValue(':servicio', str(servicio))
+            if query.exec():
+                while query.next():
+                    precio = str(query.value(0))
+            return precio
+
+        except Exception as e:
+            print("Error al obtener el precio del producto:", e)

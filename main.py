@@ -83,16 +83,16 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.txtConcepto.editingFinished.connect(events.Eventos.letrasCapital)
 
+
         '''
         Llamadas a eventos de combo box
         '''
         conexion.Conexion.cargarProv()
         var.ui.cbProvincia.currentIndexChanged.connect(conexion.Conexion.selMuni)
 
-        var.ui.chkHistorico.stateChanged.connect(conexion.Conexion.mostrarHistorico)
-
         facturas.Facturas.cargaLineaVenta(0)
 
+        var.cmbServicio.currentIndexChanged.connect(facturas.Facturas.cargaPrecioVenta)
 
         '''
         Listado de eventos de botones
@@ -118,14 +118,21 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.cargaComboVenta(self)
 
         events.Eventos.resizeTablacarcli(self)
+
+        events.Eventos.resizeTablaServicios(self)
+        #events.Eventos.resizeTablaFacturas(self)
+
         #var.ui.tabClientes.setTelectionBehavior(QtWidgets.QTableWidget.S)
         var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaCliente)
+        var.ui.chkHistorico.stateChanged.connect(conexion.Conexion.mostrarHistorico)
 
         var.ui.tabServizos.clicked.connect(servicios.Servicios.cargaServicio)
 
         var.ui.tabFacturas.clicked.connect(facturas.Facturas.cargaFactura)
 
         events.Eventos.resizeTablaventas(self)
+
+        var.txtUnidades.editingFinished.connect(facturas.Facturas.totalLineaVenta)
 
 class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):

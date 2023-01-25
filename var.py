@@ -12,4 +12,5 @@ global dlgExportar
 global report
 global cmbServicio
 global txtUnidades
+global precio
 
