@@ -54,6 +54,12 @@
     <property name="currentIndex">
      <number>1</number>
     </property>
+    <property name="iconSize">
+     <size>
+      <width>24</width>
+      <height>16</height>
+     </size>
+    </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Clientes</string>
@@ -1097,14 +1103,14 @@
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>80</y>
+        <y>100</y>
         <width>721</width>
         <height>45</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="datosFactura">
        <property name="spacing">
-        <number>13</number>
+        <number>16</number>
        </property>
        <item>
         <widget class="QLabel" name="lblDNIFactura">
@@ -1171,7 +1177,7 @@
         <widget class="QLineEdit" name="txtMatriculaFactura"/>
        </item>
        <item>
-        <widget class="QLabel" name="lblFechaAlta_2">
+        <widget class="QLabel" name="lblFechaFactura">
          <property name="minimumSize">
           <size>
            <width>1</width>
@@ -1235,7 +1241,7 @@
      <widget class="QWidget" name="layoutWidget_4">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>280</x>
         <y>150</y>
         <width>241</width>
         <height>22</height>
@@ -1356,7 +1362,7 @@
       <property name="geometry">
        <rect>
         <x>50</x>
-        <y>50</y>
+        <y>60</y>
         <width>131</width>
         <height>24</height>
        </rect>
@@ -1476,41 +1482,6 @@
        </column>
       </widget>
      </widget>
-     <widget class="QPushButton" name="btnBuscarFactura">
-      <property name="geometry">
-       <rect>
-        <x>730</x>
-        <y>10</y>
-        <width>35</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>35</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>35</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>img/lupa.png</normaloff>img/lupa.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>27</width>
-        <height>27</height>
-       </size>
-      </property>
-     </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
@@ -1573,6 +1544,128 @@
       <property name="text">
        <string>Procesar Venta</string>
       </property>
+     </widget>
+     <widget class="QLineEdit" name="txtBuscar">
+      <property name="geometry">
+       <rect>
+        <x>599</x>
+        <y>30</y>
+        <width>181</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>650</x>
+        <y>10</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>DNI/Nº Factura:</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>630</x>
+        <y>50</y>
+        <width>119</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QPushButton" name="btnBuscarFactura">
+         <property name="minimumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/lupa.png</normaloff>img/lupa.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnRecargar">
+         <property name="minimumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/reload.png</normaloff>img/reload.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>27</width>
+           <height>27</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnImprimir">
+         <property name="minimumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>35</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>img/impresora.png</normaloff>img/impresora.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>33</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
@@ -1945,7 +2038,7 @@
      <x>0</x>
      <y>0</y>
      <width>825</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">

@@ -104,7 +104,7 @@ class Conexion():
     def altaServicio(newservicio):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('insert into servicios VALUES (:concepto, :precio-unidad)')
+            query.prepare('insert into servicios (concepto, preciounidad) VALUES (:concepto, :preciounidad)')
 
             query.bindValue(':concepto', str(newservicio[0]))
             query.bindValue(':precio-unidad', str(newservicio[1]))
@@ -514,3 +514,4 @@ class Conexion():
 
         except Exception as e:
             print("Error al obtener el precio del producto:", e)
+

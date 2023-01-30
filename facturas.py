@@ -1,4 +1,4 @@
-from PyQt6 import QtSql, QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore
 
 import conexion
 import var
@@ -74,14 +74,21 @@ class Facturas():
 
     def totalLineaVenta(self = None):
         try:
-            row = var.ui.tabVentas.currentRow()
-            cantidad = round(float(var.txtUnidades.text().replace(',', '.')), 2)
-            totalFilaVenta = round(float(var.precio), 2) * round(float(cantidad), 2)
-
-            var.ui.tabVentas = totalFilaVenta.replace('.', ',') + ' €'
-            var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
-            var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            if str(var.ui.txtNumFactura.text() == ''):
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('Debe seleccionar una factura')
+                msg.exec()
+            else:
+                row = var.ui.tabVentas.currentRow()
+                cantidad = var.ui.tabVentas.cellWidget(row, 2).text()
+                totalFilaVenta = round(float(var.precio) * float(cantidad), 2)
+                totalFilaVenta = str(f"{totalFilaVenta:.2f}")
+                totalFilaVenta = totalFilaVenta.replace('.', ',') + ' €'
+                var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
+                var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
 
         except Exception as e:
-            print("Error al cargar total de la linea de venta:", e)
+            print('Error al cargar total de la linea de venta:', e)

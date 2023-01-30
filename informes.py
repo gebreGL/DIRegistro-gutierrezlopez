@@ -1,7 +1,10 @@
 import os, var
-from PyQt6 import QtSql
+from PyQt6 import QtSql, QtWidgets
 from reportlab.pdfgen import canvas
 from datetime import datetime
+
+import conexion
+
 
 class Informes:
     def listClientes(self):
@@ -157,3 +160,46 @@ class Informes:
         for i in asteriscos:
             dni = dni[:i] + '*' + dni[i+1:]
         return dni
+
+    def factura(self):
+        try:
+            var.report = canvas.Canvas('informes/factura.pdf')
+            titulo = 'FACTURA'
+            Informes.pie_Informe(titulo)
+            Informes.top_Informe(titulo)
+            cliente = []
+            dni = str(var.ui.txtDNIFactura.text())
+            nfac = str(var.ui.txtNumFactura.text())
+            fechaFac = str(var.ui.txtFechaFactura.text())
+
+            if nfac == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('Debe seleccionar una factura')
+                msg.exec()
+            else:
+                cliente = conexion.Conexion.oneCli(dni)
+                print(cliente)
+                var.report.setFont('Helvetica-Bold', size=9)
+                var.report.drawString(55, 680, 'DATOS CLIENTE:')
+                var.report.drawString(400, 660, 'Nº Factura: ')
+                var.report.drawString(400, 645, 'Fecha Factura: ')
+                var.report.setFont('Helvetica', size=9)
+                var.report.drawString(55, 660, str(nfac))
+                var.report.drawString(480, 660, str(fechaFac))
+                var.report.drawString(480, 645, 'DNI/CIF: ' + str(dni))
+                var.report.drawString(55, 645, 'Nombre: ' + str(cliente[0]))
+                var.report.drawString(55, 630, 'Dirección: ' + str(cliente[2]))
+                var.report.drawString(55, 615, 'Municipio: ' + str(cliente[4]))
+                var.report.drawString(55, 600, 'Provincia: ' + str(cliente[3]))
+
+                #para abrir la factura
+                var.report.save()
+                rootPath = '.\\informes'
+                for file in os.listdir((rootPath)):
+                    if file.endswith(('factura.pdf')):
+                        os.startfile('%s\%s' % (rootPath, file))
+
+        except Exception as e:
+            print('Error al procesar la factura:', e)

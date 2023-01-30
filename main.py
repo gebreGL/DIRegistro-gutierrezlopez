@@ -107,6 +107,8 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnExportarServizo.clicked.connect(events.Eventos.exportarServicio)
         var.ui.btnDeleteCli.clicked.connect(servicios.Servicios.borraServ)
 
+        var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
+
 
 
         '''
@@ -133,6 +135,8 @@ class Main(QtWidgets.QMainWindow):
         events.Eventos.resizeTablaventas(self)
 
         var.txtUnidades.editingFinished.connect(facturas.Facturas.totalLineaVenta)
+
+
 
 class FileDialogAbrir(QtWidgets.QFileDialog):
     def __init__(self):

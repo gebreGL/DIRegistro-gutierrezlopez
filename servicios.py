@@ -67,7 +67,7 @@ class Servicios():
     def borraServ(self):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('select concepto, precio-unidad from servicios where concepto = :concepto and precio-unidad = :precio')
+            query.prepare('select concepto, preciounidad from servicios where concepto = :concepto and preciounidad = :precio')
             codigo = var.ui.txtCodigo
             conexion.Conexion.borraServ(codigo)
             conexion.Conexion.mostrarTabServicios(self)
