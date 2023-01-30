@@ -74,21 +74,38 @@ class Facturas():
 
     def totalLineaVenta(self = None):
         try:
-            if str(var.ui.txtNumFactura.text() == ''):
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                msg.setText('Debe seleccionar una factura')
-                msg.exec()
-            else:
-                row = var.ui.tabVentas.currentRow()
-                cantidad = var.ui.tabVentas.cellWidget(row, 2).text()
-                totalFilaVenta = round(float(var.precio) * float(cantidad), 2)
-                totalFilaVenta = str(f"{totalFilaVenta:.2f}")
-                totalFilaVenta = totalFilaVenta.replace('.', ',') + ' €'
-                var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
-                var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            # if str(var.ui.txtNumFactura.text() == ''):
+            #     msg = QtWidgets.QMessageBox()
+            #     msg.setWindowTitle('Aviso')
+            #     msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            #     msg.setText('Debe seleccionar una factura')
+            #     msg.exec()
+            # else:
+            row = var.ui.tabVentas.currentRow()
+            cantidad = var.ui.tabVentas.cellWidget(row, 2).text()
+            totalFilaVenta = round(float(var.precio) * float(cantidad), 2)
+            totalFilaVenta = str(f"{totalFilaVenta:.2f}")
+            totalFilaVenta = totalFilaVenta.replace('.', ',') + ' €'
+            var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
+            var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
 
         except Exception as e:
             print('Error al cargar total de la linea de venta:', e)
+
+
+
+    def guardarFactura(self):
+        try:
+            newFac = []
+
+            factura = [var.ui.txtDNIFactura, var.ui.txtMatriculaFactura]
+            for i in factura:
+                newFac.append(i.text())
+
+            conexion.Conexion.altaFactura(newFac)
+            conexion.Conexion.mostrarTabFacturas(self)
+            print(newFac)
+
+        except Exception as error:
+            print('Error al guardar la factura:', error)

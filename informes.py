@@ -55,11 +55,9 @@ class Informes:
             var.report.save()
             rootPath = '.\\informes'
 
-            '''
             for file in os.listdir((rootPath)):
                 if file.endswith(('Clientes.pdf')):
                     os.startfile('%s\%s' % (rootPath, file))
-            '''
 
         except Exception as e:
             print('Error informes estado clientes:', e)

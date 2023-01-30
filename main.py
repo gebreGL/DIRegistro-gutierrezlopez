@@ -109,6 +109,12 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
 
+        var.ui.btnBuscarFactura.clicked.connect(conexion.Conexion.buscarFactura)
+
+        var.ui.btnGuardarFactura.clicked.connect(facturas.Facturas.guardarFactura)
+
+        var.ui.btnModificarServizo.clicked.connect(servicios.Servicios.modifServ)
+
 
 
         '''

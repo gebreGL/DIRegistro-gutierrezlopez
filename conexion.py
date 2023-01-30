@@ -107,7 +107,7 @@ class Conexion():
             query.prepare('insert into servicios (concepto, preciounidad) VALUES (:concepto, :preciounidad)')
 
             query.bindValue(':concepto', str(newservicio[0]))
-            query.bindValue(':precio-unidad', str(newservicio[1]))
+            query.bindValue(':preciounidad', str(newservicio[1]))
 
             if query.exec():
                 msg = QtWidgets.QMessageBox()
@@ -290,9 +290,9 @@ class Conexion():
     def borraServ(concepto, precio):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('delete from servicios where concepto = :concepto and precio-unidad = :precio')
+            query.prepare('delete from servicios where concepto = :concepto and preciounidad = :preciounidad')
             query.bindValue(':concepto', str(concepto))
-            query.bindValue(':precio', str(precio))
+            query.bindValue(':preciounidad', str(precio))
             if query.exec():
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
@@ -392,30 +392,45 @@ class Conexion():
 
     def modificaServ(modserv):
         try:
-            query = QtSql.QSqlQuery()
-            query.prepare(
-                'update servicios set concepto = :concepto, precio-unidad = :precio-unidad where codigo = :codigo')
+            query1 = QtSql.QSqlQuery()
+            query1.prepare(
+                'select codigo from servicios where concepto = :concepto and preciounidad = preciounidad')
+            query1.bindValue(':concepto', str(modserv[0]))
+            query1.bindValue(':preciounidad', str(modserv[1]))
 
-            query.bindValue(':codigo', str(modserv[0]))
-            query.bindValue(':concepto', str(modserv[1]))
-            query.bindValue(':precio-unidad', str(modserv[2]))
+            if query1.exec():
+                codigo = query1.value(0)
+                query = QtSql.QSqlQuery()
+                query.prepare(
+                    'update servicios set concepto = :concepto, preciounidad = :preciounidad where codigo = :codigo')
 
-            if query.exec():
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                msg.setText('Datos modificados correctamente')
-                msg.exec()
+                query.bindValue(':codigo', str(codigo))
+                query.bindValue(':concepto', str(modserv[0]))
+                query.bindValue(':preciounidad', str(modserv[1]))
+
+                if query.exec():
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle('Aviso')
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                    msg.setText('Datos modificados correctamente')
+                    msg.exec()
+                else:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle('Aviso')
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    msg.setText(query.lastError().text())
+                    msg.exec()
             else:
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
                 msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                msg.setText(query.lastError().text())
+                msg.setText(query1.lastError().text())
                 msg.exec()
 
 
+
         except Exception as error:
-            print('Error al modificar servicios en conexion: ', error)
+            print('Error al modificar servicio en conexion: ', error)
 
 
     def mostrarTabServicios(self):
@@ -478,7 +493,7 @@ class Conexion():
             query = QtSql.QSqlQuery()
             query.prepare('select concepto from servicios order by concepto')
             if query.exec():
-                var.cmbServicio.addItem('')
+                var.cmbServicio.addItem('') # Para que no aparezca ninguna opción seleccionada
                 while query.next():
                     var.cmbServicio.addItem(str(query.value(0)))
 
@@ -513,5 +528,47 @@ class Conexion():
             return precio
 
         except Exception as e:
-            print("Error al obtener el precio del producto:", e)
+            print('Error al obtener el precio del producto:', e)
 
+
+    def buscarFactura(self):
+        try:
+            factura = []
+            parametro = var.ui.txtBuscar()
+            query = QtSql.QSqlQuery()
+            query.prepare('select * from facturas where dni = :parametro or matfac = :parametro')
+            query.bindValue(':parametro', str(parametro))
+            if query.exec():
+                while query.next():
+                    for i in range(2):
+                        factura.append(str(query.value(i)))
+            return factura
+        except Exception as e:
+            print('Error al buscar factura:', e)
+
+
+    @staticmethod
+    def altaFactura(newFac):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('insert into facturas (dni, matfac, fechafac) VALUES (:dni, :matfac, :fechafac)')
+
+            query.bindValue(':dni', str(newFac[0]))
+            query.bindValue(':matfac', str(newFac[1]))
+            query.bindValue(':fechafac', str(datetime.date.strftime('%Y-%m-%d-%H.%M.%S')))
+
+            if query.exec():
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                msg.setText('Factura dada de alta correctamente')
+                msg.exec()
+            else:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText(query.lastError().text())
+                msg.exec()
+
+        except Exception as error:
+            print('Problemas en la conexión al dar de alta la factura:', error)

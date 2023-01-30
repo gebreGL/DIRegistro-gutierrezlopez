@@ -34,15 +34,15 @@ class Servicios():
     def cargaServicio(self=None):
         try:
             Servicios.limpiaServicio()
-
             fila = var.ui.tabServizos.selectedItems()
-            row = [dato.text() for dato in fila] # Recoge todo lo que hay en cada fila de la tabla
+            row = [dato.text() for dato in fila]  # Recoge todo lo que hay en cada fila de la tabla
             datos = [var.ui.txtConcepto, var.ui.txtPrecio]
 
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
 
-
+            var.ui.txtConcepto.setText(row[1])
+            var.ui.txtPrecio.setText(row[2])
 
         except Exception as e:
             print('Error carga servicio:', e)
@@ -61,13 +61,13 @@ class Servicios():
             conexion.Conexion.mostrarTabServicios(self)
 
         except Exception as error:
-            print('Error al modificar cliente: ', error)
+            print('Error al modificar servicio: ', error)
 
 
-    def borraServ(self):
+    def borraServ(codigo):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('select concepto, preciounidad from servicios where concepto = :concepto and preciounidad = :precio')
+            query.prepare('delete from servicios where codigo = :codigo')
             codigo = var.ui.txtCodigo
             conexion.Conexion.borraServ(codigo)
             conexion.Conexion.mostrarTabServicios(self)
