@@ -555,7 +555,7 @@ class Conexion():
 
             query.bindValue(':dni', str(newFac[0]))
             query.bindValue(':matfac', str(newFac[1]))
-            query.bindValue(':fechafac', str(datetime.date.strftime('%Y-%m-%d-%H.%M.%S')))
+            query.bindValue(':fechafac', str(datetime.now().strftime('%Y-%m-%d-%H.%M.%S')))
 
             if query.exec():
                 msg = QtWidgets.QMessageBox()
@@ -572,3 +572,48 @@ class Conexion():
 
         except Exception as error:
             print('Problemas en la conexión al dar de alta la factura:', error)
+
+
+    def cargarLineasVenta(codfac):
+        try:
+            suma = 0.0
+            var.ui.tabVentas.clearContents()
+            index = 0
+            query = QtSql.QSqlQuery()
+            query.prepare('select codservicio, precio, unidades from ventas '
+                          'where codfact = :codfact')
+            query.bindValue(':codfact', int(codfac))
+            if query.exec():
+                while query.next():
+                    precio = str('{:.2f'.format(round(query.value(1), 2))) + ' €'
+                    cantidad = str('{:.2f'.format(round(query.value(2), 2)))
+                    servicio = Conexion.buscaArt(int(query.value(3)))
+                    suma = suma + (round(query.value(1) * query.value(2)), 2)
+                    var.ui.tabVentas.setRowCount(index + 1)  # Creamos la fila
+                    var.ui.tabVentas.setItem(index, 0, QtWidgets.QTableWidgetItem(servicio))
+                    var.ui.tabVentas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabVentas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(precio.replace('.', ','))))
+                    var.ui.tabVentas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabVentas.setItem(index, 2, QtWidgets.QTableWidgetItem(str(cantidad.replace('.', ','))))
+                    var.ui.tabVentas.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabVentas.setItem(index, 3, QtWidgets.QTableWidgetItem(str(round(query.value(1) * query.value(2), 2))))
+                    var.ui.tabVentas.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    index += 1
+
+
+        except Exception as e:
+            print('Error al cargar las lineas de venta:', e)
+
+
+    def buscaArt(codservicio):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('select concepto from servicios '
+                          'where codigo = :codigo')
+            query.bindValue(':codigo', (codservicio))
+            if query.exec():
+                while query.next():
+                    servicio = str(query.value(0))
+            return servicio
+        except Exception as e:
+            print('Error al buscar artículo:', e)

@@ -28,7 +28,7 @@ class Facturas():
 
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
-
+            conexion.Conexion.cargarLineasVenta(row[0])
             var.ui.txtNumFactura.setText(row[0])
             var.ui.txtDNIFactura.setText(row[1])
 
@@ -36,6 +36,7 @@ class Facturas():
 
             var.ui.txtMatriculaFactura.setText(restoDatos[0])
             var.ui.txtFechaFactura.setText(restoDatos[1])
+
 
         except Exception as e:
             print('Error carga factura:', e)
@@ -74,20 +75,20 @@ class Facturas():
 
     def totalLineaVenta(self = None):
         try:
-            # if str(var.ui.txtNumFactura.text() == ''):
-            #     msg = QtWidgets.QMessageBox()
-            #     msg.setWindowTitle('Aviso')
-            #     msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-            #     msg.setText('Debe seleccionar una factura')
-            #     msg.exec()
-            # else:
-            row = var.ui.tabVentas.currentRow()
-            cantidad = var.ui.tabVentas.cellWidget(row, 2).text()
-            totalFilaVenta = round(float(var.precio) * float(cantidad), 2)
-            totalFilaVenta = str(f"{totalFilaVenta:.2f}")
-            totalFilaVenta = totalFilaVenta.replace('.', ',') + ' €'
-            var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
-            var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            if str(var.ui.txtNumFactura.text() == ''):
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('Debe seleccionar una factura')
+                msg.exec()
+            else:
+                row = var.ui.tabVentas.currentRow()
+                cantidad = var.ui.tabVentas.cellWidget(row, 2).text()
+                totalFilaVenta = round(float(var.precio) * float(cantidad), 2)
+                totalFilaVenta = str(f"{totalFilaVenta:.2f}")
+                totalFilaVenta = totalFilaVenta.replace('.', ',') + ' €'
+                var.ui.tabVentas.setItem(row, 3, QtWidgets.QTableWidgetItem(str(totalFilaVenta)))
+                var.ui.tabVentas.item(row, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
 
 
         except Exception as e:
