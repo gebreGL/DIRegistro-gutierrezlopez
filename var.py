@@ -13,4 +13,5 @@ global report
 global cmbServicio
 global txtUnidades
 global precio
+global idser
 

@@ -479,6 +479,7 @@ class Ui_ventMain(object):
         self.datosFactura.addWidget(self.lblFechaFactura)
         self.txtFechaFactura = QtWidgets.QLineEdit(self.layoutWidget_3)
         self.txtFechaFactura.setMaximumSize(QtCore.QSize(200, 20))
+        self.txtFechaFactura.setReadOnly(True)
         self.txtFechaFactura.setObjectName("txtFechaFactura")
         self.datosFactura.addWidget(self.txtFechaFactura)
         self.line_4 = QtWidgets.QFrame(self.tab_2)

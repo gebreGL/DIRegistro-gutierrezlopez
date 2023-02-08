@@ -1212,6 +1212,9 @@
            <height>20</height>
           </size>
          </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -2185,14 +2188,14 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="btnGroup">
-   <property name="exclusive">
-    <bool>true</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="buttonGroupPago">
    <property name="exclusive">
     <bool>false</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="btnGroup">
+   <property name="exclusive">
+    <bool>true</bool>
    </property>
   </buttongroup>
  </buttongroups>
