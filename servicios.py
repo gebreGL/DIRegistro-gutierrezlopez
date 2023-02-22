@@ -64,11 +64,11 @@ class Servicios():
             print('Error al modificar servicio: ', error)
 
 
-    def borraServ(codigo):
+    def borraServ(self):
         try:
-            query = QtSql.QSqlQuery()
-            query.prepare('delete from servicios where codigo = :codigo')
-            codigo = var.ui.txtCodigo
+            concepto = var.ui.txtConcepto.text()
+            var.codigoServicio = str(conexion.Conexion.buscaServicio(concepto))
+            codigo = var.codigoServicio
             conexion.Conexion.borraServ(codigo)
             conexion.Conexion.mostrarTabServicios(self)
 

@@ -107,7 +107,7 @@ class Conexion():
             query.prepare('insert into servicios (concepto, preciounidad) VALUES (:concepto, :preciounidad)')
 
             query.bindValue(':concepto', str(newservicio[0]))
-            query.bindValue(':precio-unidad', str(newservicio[1]))
+            query.bindValue(':preciounidad', str(newservicio[1]))
 
             if query.exec():
                 msg = QtWidgets.QMessageBox()
@@ -287,12 +287,11 @@ class Conexion():
         except Exception as error:
             print('Error al borrar cliente:', error)
 
-    def borraServ(concepto, precio):
+    def borraServ(codigo):
         try:
             query = QtSql.QSqlQuery()
-            query.prepare('delete from servicios where concepto = :concepto and precio-unidad = :precio')
-            query.bindValue(':concepto', str(concepto))
-            query.bindValue(':precio', str(precio))
+            query.prepare('delete from servicios where codigo = :codigo')
+            query.bindValue(':codigo', str(codigo))
             if query.exec():
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
@@ -418,6 +417,19 @@ class Conexion():
             print('Error al modificar servicios en conexion: ', error)
 
 
+    def buscaServicio(concepto):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('select codigo from servicios where concepto = :concepto')
+            query.bindValue(':concepto', str(concepto))
+            if query.exec():
+                while query.next():
+                    codigoServicio = str(query.value(0))
+            return codigoServicio
+        except Exception as e:
+            print('Error al buscar Servicio:', e)
+
+
     def mostrarTabServicios(self):
         try :
             index = 0
@@ -515,3 +527,45 @@ class Conexion():
         except Exception as e:
             print("Error al obtener el precio del producto:", e)
 
+
+    def buscarFactura(self):
+        try:
+            factura = []
+            parametro = var.ui.txtBuscar()
+            query = QtSql.QSqlQuery()
+            query.prepare('select * from facturas where dni = :parametro or matfac = :parametro')
+            query.bindValue(':parametro', str(parametro))
+            if query.exec():
+                while query.next():
+                    for i in range(2):
+                        factura.append(str(query.value(i)))
+            return factura
+        except Exception as e:
+            print('Error al buscar factura:', e)
+
+
+    @staticmethod
+    def altaFactura(newFac):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('insert into facturas (dni, matfac, fechafac) VALUES (:dni, :matfac, :fechafac)')
+
+            query.bindValue(':dni', str(newFac[0]))
+            query.bindValue(':matfac', str(newFac[1]))
+            query.bindValue(':fechafac', str(datetime.date.strftime('%Y-%m-%d-%H.%M.%S')))
+
+            if query.exec():
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                msg.setText('Factura dada de alta correctamente')
+                msg.exec()
+            else:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText(query.lastError().text())
+                msg.exec()
+
+        except Exception as error:
+            print('Problemas en la conexión al dar de alta la factura:', error)
