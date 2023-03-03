@@ -3,7 +3,7 @@ from datetime import datetime
 from PyQt6 import QtWidgets, QtSql
 
 import var
-import clientes
+import clientes, facturas, events
 from ventMain import *
 
 class Conexion():
@@ -216,12 +216,12 @@ class Conexion():
         try:
             registro = []
             query = QtSql.QSqlQuery()
-            query.prepare('select nombre, alta, direccion, provincia, municipio, pago, factura from '
+            query.prepare('select nombre, alta, direccion, provincia, municipio, pago from '
                           'clientes where dni = :dni')
             query.bindValue(':dni', str(dni))
             if query.exec():
                 while query.next():
-                    for i in range(7):
+                    for i in range(6):
                         registro.append(str(query.value(i)))
             return registro
 
@@ -296,7 +296,7 @@ class Conexion():
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
                 msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                msg.setText('Cliente dado de baja correctamente')
+                msg.setText('Servicio dado de baja correctamente')
                 msg.exec()
             else:
                 msg = QtWidgets.QMessageBox()
@@ -306,10 +306,32 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Error al borrar servicio:', error)
+            print('Error al borrar servicio en conexion:', error)
 
 
-    def modificarDatos(modcli, modcar):
+    def borraFactura(idfac):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('delete from facturas where idfac = :idfac')
+            query.bindValue(':idfac', str(idfac))
+            if query.exec():
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                msg.setText('Factura dada de baja correctamente')
+                msg.exec()
+            else:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText(query.lastError().text())
+                msg.exec()
+
+        except Exception as error:
+            print('Error al borrar factura en conexion:', error)
+
+
+    def modificarDatosCliente(modcli, modcar):
         try:
             registroCli = []
             registroCar = []
@@ -393,11 +415,11 @@ class Conexion():
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
-                'update servicios set concepto = :concepto, precio-unidad = :precio-unidad where codigo = :codigo')
+                'update servicios set concepto = :concepto, preciounidad = :preciounidad where codigo = :codigo')
 
-            query.bindValue(':codigo', str(modserv[0]))
-            query.bindValue(':concepto', str(modserv[1]))
-            query.bindValue(':precio-unidad', str(modserv[2]))
+            query.bindValue(':codigo', str(modserv[2]))
+            query.bindValue(':concepto', str(modserv[0]))
+            query.bindValue(':preciounidad', str(modserv[1]))
 
             if query.exec():
                 msg = QtWidgets.QMessageBox()
@@ -468,21 +490,6 @@ class Conexion():
         except Exception as error:
             print('Problema al mostrar el listado de facturas:', error)
 
-    def oneFac(idFactura):
-        try:
-            factura = []
-            query = QtSql.QSqlQuery()
-            query.prepare('select dni, matfac, fechafac from facturas where idfac = :idfac')
-            query.bindValue(':idfac', str(idFactura))
-            if query.exec():
-                while query.next():
-                    for i in range(3):
-                        factura.append(str(query.value(i)))
-            return factura
-
-        except Exception as e:
-            print('Error en oneFac:', e)
-
 
     def cargaComboVenta(self):
         try:
@@ -516,13 +523,19 @@ class Conexion():
 
     def obtenerPrecio(servicio):
         try:
+            datos = []
             query = QtSql.QSqlQuery()
-            query.prepare('select preciounidad from servicios where concepto = :servicio')
+            query.prepare('select preciounidad, codigo from servicios where concepto = :servicio')
             query.bindValue(':servicio', str(servicio))
+
             if query.exec():
                 while query.next():
+                    codigo = str(query.value(1))
                     precio = str(query.value(0))
-            return precio
+
+                    datos.append(codigo)
+                    datos.append(precio)
+            return datos
 
         except Exception as e:
             print("Error al obtener el precio del producto:", e)
@@ -552,7 +565,7 @@ class Conexion():
 
             query.bindValue(':dni', str(newFac[0]))
             query.bindValue(':matfac', str(newFac[1]))
-            query.bindValue(':fechafac', str(datetime.date.strftime('%Y-%m-%d-%H.%M.%S')))
+            query.bindValue(':fechafac', str(datetime.today().strftime('%Y-%m-%d-%H.%M.%S')))
 
             if query.exec():
                 msg = QtWidgets.QMessageBox()
@@ -569,3 +582,130 @@ class Conexion():
 
         except Exception as error:
             print('Problemas en la conexión al dar de alta la factura:', error)
+
+    def cargarLineasVenta(codigo_factura):
+        """
+
+        Carga las lineas de venta de una factura en la tabla de ventas
+
+        :param codigo_factura: el codigo de la factura
+
+        :return: None
+        """
+        try:
+            subtotal = 0.00
+            iva = 0.00
+            total = 0.00
+            index = 0
+
+            var.ui.tabVentas.setRowCount(0)
+
+            query = QtSql.QSqlQuery()
+            query.prepare('select codigo_servicio, precio, unidades, id_venta from ventas where codigo_factura = :codigo_factura')
+            query.bindValue(':codigo_factura', int(codigo_factura))
+
+            if query.exec():
+                while query.next():
+                    precio = str('{:.2f}'.format(round(query.value(1), 2))) + ' €'
+                    cantidad = str('{:.2f}'.format(round(query.value(2), 2)))
+                    servicio = Conexion.buscarConceptoServicio(int(query.value(0)))
+                    subtotal = subtotal + round(query.value(1) * query.value(2), 2)
+                    iva = subtotal * 0.21
+                    total = subtotal + iva
+
+                    suma = str(round(query.value(1) * query.value(2), 2))
+
+                    var.ui.tabVentas.setRowCount(index + 1)
+
+                    var.ui.tabVentas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(3))))
+                    # var.ui.tabVentas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                    var.ui.tabVentas.setItem(index, 1, QtWidgets.QTableWidgetItem(servicio))
+                    # var.ui.tabVentas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                    var.ui.tabVentas.setItem(index, 2, QtWidgets.QTableWidgetItem(str(precio).replace('.', ',')))
+                    # var.ui.tabVentas.item(index, 2).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                    var.ui.tabVentas.setItem(index, 3, QtWidgets.QTableWidgetItem(str(cantidad).replace('.', ',')))
+                    # var.ui.tabVentas.item(index, 3).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                    var.ui.tabVentas.setItem(index, 4, QtWidgets.QTableWidgetItem(str(suma + ' €')))
+                    # var.ui.tabVentas.item(index, 4).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+
+                    var.btnBorrar = QtWidgets.QPushButton()
+                    var.icon = QtGui.QIcon()
+                    var.icon.addPixmap(QtGui.QPixmap('img/papelera.png'), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.On)
+                    var.btnBorrar.setIcon(var.icon)
+                    var.btnBorrar.setFixedSize(30, 25)
+
+                    var.ui.tabVentas.setCellWidget(index, 5, var.btnBorrar)
+
+                    index = index + 1
+
+                var.ui.lblRecuadroSubtotal.setText(str(str(round(subtotal, 2)) + ' €'))
+                var.ui.lblRecuadroIVA.setText(str(str(round(iva, 2)) + ' €'))
+                var.ui.lblRecuadroTotal.setText(str(str(round(total, 2)) + ' €'))
+
+                facturas.Facturas.cargaLineaVenta(index)
+                events.Eventos.resizeTablaventas(None)
+                var.ui.tabVentas.scrollToBottom()
+                var.cmbServicio.currentIndexChanged.connect(facturas.Facturas.cargaPrecioVenta)
+
+
+        except Exception as error:
+            print('Error en conexion.cargarlineasventa: ', error)
+
+    def buscarConceptoServicio(codigo_servicio):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare('select concepto from servicios where codigo = :codigo_servicio')
+            query.bindValue(':codigo_servicio', str(codigo_servicio))
+
+            if query.exec():
+                while query.next():
+                    servicio = str(query.value(0))
+                return servicio
+
+        except Exception as e:
+            print('Error en buscarConceptoServicio:', e)
+
+    def borrarLineaVenta(codigo_venta):
+        try:
+
+            query = QtSql.QSqlQuery()
+            query.prepare('delete from ventas where id_venta = :codigo_venta')
+            query.bindValue(':codigo_venta', str(codigo_venta))
+
+            if query.exec():
+                pass
+
+        except Exception as e:
+            print('Error en borrarLineaVenta:', e)
+
+
+    def cargarVentas(venta):
+        try:
+            query = QtSql.QSqlQuery()
+            query.prepare('insert into ventas (codigo_factura, codigo_servicio, precio, unidades) '
+                          'VALUES (:codigo_factura, :codigo_servicio, :precio, :unidades)')
+            query.bindValue(':codigo_factura', int(venta[0]))
+            query.bindValue(':codigo_servicio', int(venta[1]))
+            query.bindValue(':precio', float(venta[2]))
+            query.bindValue(':unidades', float(venta[3]))
+
+            if query.exec():
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
+                msg.setText('Linea venta registrada')
+                msg.exec()
+            else:
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText(query.lastError().text())
+                msg.exec()
+
+        except Exception as e:
+            print('Error en cargarVenta:', e)

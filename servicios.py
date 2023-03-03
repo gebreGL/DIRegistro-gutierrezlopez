@@ -36,11 +36,12 @@ class Servicios():
             Servicios.limpiaServicio()
             fila = var.ui.tabServizos.selectedItems()
             row = [dato.text() for dato in fila]  # Recoge todo lo que hay en cada fila de la tabla
-            datos = [var.ui.txtConcepto, var.ui.txtPrecio]
+            datos = [var.ui.txtCodigo, var.ui.txtConcepto, var.ui.txtPrecio]
 
             for i, dato in enumerate(datos):
                 dato.setText(row[i])
 
+            var.ui.txtCodigo.setText(row[0])
             var.ui.txtConcepto.setText(row[1])
             var.ui.txtPrecio.setText(row[2])
 
@@ -52,7 +53,7 @@ class Servicios():
         try:
             modserv = []
 
-            servicio = [var.ui.txtConcepto, var.ui.txtPrecio]
+            servicio = [var.ui.txtConcepto, var.ui.txtPrecio, var.ui.txtCodigo]
             for i in servicio:
                 modserv.append(i.text())
 

@@ -108,6 +108,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnDeleteServizo.clicked.connect(servicios.Servicios.borraServ)
 
         var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
+        var.ui.btnDeleteFactura.clicked.connect(facturas.Facturas.borraFactura)
 
         # var.ui.btnBuscarFactura.clicked.connect(conexion.Conexion.buscarFactura)
 
@@ -123,8 +124,6 @@ class Main(QtWidgets.QMainWindow):
         conexion.Conexion.mostrarTabcarcli(self)
         conexion.Conexion.mostrarTabServicios(self)
 
-        conexion.Conexion.cargaComboVenta(self)
-
         events.Eventos.resizeTablacarcli(self)
 
         events.Eventos.resizeTablaServicios(self)
@@ -139,8 +138,6 @@ class Main(QtWidgets.QMainWindow):
         var.ui.tabFacturas.clicked.connect(facturas.Facturas.cargaFactura)
 
         events.Eventos.resizeTablaventas(self)
-
-        var.txtUnidades.editingFinished.connect(facturas.Facturas.totalLineaVenta)
 
 
 

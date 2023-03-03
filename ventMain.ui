@@ -1041,9 +1041,9 @@
      <widget class="QTableWidget" name="tabFacturas">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>210</y>
-        <width>211</width>
+        <width>221</width>
         <height>351</height>
        </rect>
       </property>
@@ -1142,7 +1142,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="txtDNIFactura"/>
+        <widget class="QLineEdit" name="txtDNIFactura">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="lblMatricula">
@@ -1174,7 +1178,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="txtMatriculaFactura"/>
+        <widget class="QLineEdit" name="txtMatriculaFactura">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="lblFechaFactura">
@@ -1441,6 +1449,17 @@
        </property>
        <column>
         <property name="text">
+         <string>Id Venta</string>
+        </property>
+        <property name="font">
+         <font>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>Concepto</string>
         </property>
         <property name="font">
@@ -1485,69 +1504,6 @@
        </column>
       </widget>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>470</x>
-        <y>540</y>
-        <width>236</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="spacing">
-        <number>20</number>
-       </property>
-       <item alignment="Qt::AlignRight">
-        <widget class="QLabel" name="lblSubtotal">
-         <property name="text">
-          <string>Subtotal :</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="lblRecuadroSubtotal">
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 248, 193);</string>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Box</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPushButton" name="btnProcesarVenta">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>540</y>
-        <width>100</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(197, 255, 110);</string>
-      </property>
-      <property name="text">
-       <string>Procesar Venta</string>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="txtBuscar">
       <property name="geometry">
        <rect>
@@ -1568,7 +1524,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>DNI/Nº Matrícula:</string>
+       <string>DNI/Nº Factura:</string>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -1665,6 +1621,126 @@
            <width>32</width>
            <height>33</height>
           </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>271</x>
+        <y>540</y>
+        <width>471</width>
+        <height>17</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="lblSubtotal">
+         <property name="text">
+          <string>Subtotal :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblRecuadroSubtotal">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 248, 193);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblIVA">
+         <property name="text">
+          <string>IVA :</string>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblRecuadroIVA">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 248, 193);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblTotal">
+         <property name="text">
+          <string>Subtotal :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblRecuadroTotal">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 248, 193);</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -1937,7 +2013,7 @@
        <rect>
         <x>130</x>
         <y>80</y>
-        <width>490</width>
+        <width>519</width>
         <height>24</height>
        </rect>
       </property>
@@ -1945,6 +2021,42 @@
        <property name="spacing">
         <number>20</number>
        </property>
+       <item>
+        <widget class="QLabel" name="lblCodigo">
+         <property name="minimumSize">
+          <size>
+           <width>70</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>70</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Codigo :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="txtCodigo">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QLabel" name="lblConcepto">
          <property name="minimumSize">
@@ -2188,14 +2300,14 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroupPago">
-   <property name="exclusive">
-    <bool>false</bool>
-   </property>
-  </buttongroup>
   <buttongroup name="btnGroup">
    <property name="exclusive">
     <bool>true</bool>
+   </property>
+  </buttongroup>
+  <buttongroup name="buttonGroupPago">
+   <property name="exclusive">
+    <bool>false</bool>
    </property>
   </buttongroup>
  </buttongroups>

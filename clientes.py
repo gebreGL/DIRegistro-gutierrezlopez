@@ -168,7 +168,7 @@ class Clientes():
             motor = Clientes.checkMotor()
             modcar.append(motor)
 
-            conexion.Conexion.modificarDatos(modcli, modcar)
+            conexion.Conexion.modificarDatosCliente(modcli, modcar)
 
             conexion.Conexion.mostrarTabcarcli(self)
 
@@ -196,13 +196,11 @@ class Clientes():
                 var.ui.rbtElectrico.setChecked(True)
 
             registro = conexion.Conexion.oneCli(row[0])
-            #print(registro)
             var.ui.txtNombreCli.setText(registro[0])
             var.ui.txtFechaAltaCli.setText(registro[1])
             var.ui.txtDir.setText(registro[2])
             var.ui.cbProvincia.setCurrentText(str(registro[3]))
             var.ui.cbMunicipio.setCurrentText(str(registro[4]))
-            var.ui.txtNumFactura.setText(str(registro[6]))
 
             if 'Efectivo' in registro[5]:
                 var.ui.chkEfectivo.setChecked(True)
@@ -211,13 +209,8 @@ class Clientes():
             if 'Transferencia' in registro[5]:
                 var.ui.chkTrans.setChecked(True)
 
-            if not registro[6] :
-                pass
-            else :
-                factura = conexion.Conexion.oneFac(registro[6])
-                var.ui.txtDNIFactura.setText(factura[0])
-                var.ui.txtMatriculaFactura.setText(factura[1])
-                var.ui.txtFechaFactura.setText(factura[2])
+            var.ui.txtDNIFactura.setText(row[0])
+            var.ui.txtMatriculaFactura.setText(datos[1].text())
 
 
         except Exception as e:

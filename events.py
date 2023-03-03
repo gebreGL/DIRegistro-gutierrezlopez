@@ -236,9 +236,18 @@ class Eventos:
     def resizeTablaventas(self):
         try:
             header = var.ui.tabVentas.horizontalHeader()
-            for i in range(3):
-                if i == 0 or i == 1:
-                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+
+            header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)
+            header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeMode.Stretch)
+
+
+            # for i in range(3):
+            #     if i == 0 or i == 1:
+            #         header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
+            #     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
+
         except Exception as error:
             print('Error:', error)

@@ -14,4 +14,7 @@ global cmbServicio
 global txtUnidades
 global precio
 global idser
+global btnBorrar
+global icon
+global codigo_servicio
 
