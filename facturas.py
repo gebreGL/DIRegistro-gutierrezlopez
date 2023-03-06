@@ -11,7 +11,7 @@ class Facturas():
     def limpiaFact(self=None):
         try:
             factura = [var.ui.txtNumFactura, var.ui.txtDNIFactura, var.ui.txtMatriculaFactura,
-                       var.ui.txtFechaFactura]
+                       var.ui.txtFechaFactura, var.ui.txtBuscar]
             for i in factura:
                 i.setText('')
 
