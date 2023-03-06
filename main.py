@@ -70,6 +70,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionImportar_Datos.triggered.connect(events.Eventos.importarDatos)
         var.ui.actionInformes_Clientes.triggered.connect(informes.Informes.listClientes)
         var.ui.actionInforme_Vehiculos.triggered.connect(informes.Informes.listAutos)
+        var.ui.actionLimpiarDatos.triggered.connect(clientes.Clientes.limpiaCli)
 
         '''
         Listado de eventos de cajas
@@ -99,7 +100,6 @@ class Main(QtWidgets.QMainWindow):
         '''
         var.ui.btnGuardarCli.clicked.connect(clientes.Clientes.guardaCli)
         var.ui.btnFechaAltaCliente.clicked.connect(events.Eventos.abrirCalendar)
-        var.ui.btnLimpiarCli.clicked.connect(clientes.Clientes.limpiaCli)
         var.ui.btnDeleteCli.clicked.connect(clientes.Clientes.borraCli)
         var.ui.btnModificarCli.clicked.connect(clientes.Clientes.modifCli)
 
@@ -110,13 +110,13 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
         var.ui.btnDeleteFactura.clicked.connect(facturas.Facturas.borraFactura)
 
-        # var.ui.btnBuscarFactura.clicked.connect(conexion.Conexion.buscarFactura)
+        var.ui.btnBuscarFactura.clicked.connect(conexion.Conexion.buscarFactura)
 
         var.ui.btnGuardarFactura.clicked.connect(facturas.Facturas.guardarFactura)
 
         var.ui.btnModificarServizo.clicked.connect(servicios.Servicios.modifServ)
 
-
+        var.ui.btnRecargar.clicked.connect(facturas.Facturas.limpiaFact)
 
         '''
         Funciones relacionadas con las tablas

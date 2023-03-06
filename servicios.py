@@ -8,7 +8,7 @@ class Servicios():
 
     def limpiaServicio(self=None):
         try:
-            servicio = [var.ui.txtConcepto, var.ui.txtPrecio]
+            servicio = [var.ui.txtCodigo, var.ui.txtConcepto, var.ui.txtPrecio]
             for i in servicio:
                 i.setText('')
 
@@ -17,15 +17,22 @@ class Servicios():
 
     def guardaServicio(self):
         try:
-            newservicio = []
+            if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede guardar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                newservicio = []
 
-            servicio = [var.ui.txtConcepto, var.ui.txtPrecio]
-            for i in servicio:
-                newservicio.append(i.text())
+                servicio = [var.ui.txtConcepto, var.ui.txtPrecio]
+                for i in servicio:
+                    newservicio.append(i.text())
 
-            conexion.Conexion.altaServicio(newservicio)
-            conexion.Conexion.mostrarTabServicios(self)
-            print(newservicio)
+                conexion.Conexion.altaServicio(newservicio)
+                conexion.Conexion.mostrarTabServicios(self)
+                print(newservicio)
 
         except Exception as error:
             print('Error al guardar el servicio:', error)
@@ -51,15 +58,22 @@ class Servicios():
 
     def modifServ(self=None):
         try:
-            modserv = []
+            if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede modificar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                modserv = []
 
-            servicio = [var.ui.txtConcepto, var.ui.txtPrecio, var.ui.txtCodigo]
-            for i in servicio:
-                modserv.append(i.text())
+                servicio = [var.ui.txtConcepto, var.ui.txtPrecio, var.ui.txtCodigo]
+                for i in servicio:
+                    modserv.append(i.text())
 
-            conexion.Conexion.modificaServ(modserv)
+                conexion.Conexion.modificaServ(modserv)
 
-            conexion.Conexion.mostrarTabServicios(self)
+                conexion.Conexion.mostrarTabServicios(self)
 
         except Exception as error:
             print('Error al modificar servicio: ', error)
@@ -67,11 +81,18 @@ class Servicios():
 
     def borraServ(self):
         try:
-            concepto = var.ui.txtConcepto.text()
-            var.codigoServicio = str(conexion.Conexion.buscaServicio(concepto))
-            codigo = var.codigoServicio
-            conexion.Conexion.borraServ(codigo)
-            conexion.Conexion.mostrarTabServicios(self)
+            if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede eliminar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                concepto = var.ui.txtConcepto.text()
+                var.codigoServicio = str(conexion.Conexion.buscaServicio(concepto))
+                codigo = var.codigoServicio
+                conexion.Conexion.borraServ(codigo)
+                conexion.Conexion.mostrarTabServicios(self)
 
         except Exception as error:
             print('Error al borrar cliente:', error)

@@ -113,24 +113,38 @@ class Facturas():
 
     def guardarFactura(self):
         try:
-            newFac = []
+            if var.ui.txtDNIFactura.text() == '' or var.ui.txtMatriculaFactura.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede guardar un registro con parámetros vacíos')
+                msg.exec()
+            else :
+                newFac = []
 
-            factura = [var.ui.txtDNIFactura, var.ui.txtMatriculaFactura]
-            for i in factura:
-                newFac.append(i.text())
+                factura = [var.ui.txtDNIFactura, var.ui.txtMatriculaFactura]
+                for i in factura:
+                    newFac.append(i.text())
 
-            conexion.Conexion.altaFactura(newFac)
-            conexion.Conexion.mostrarTabFacturas(self)
-            print(newFac)
+                conexion.Conexion.altaFactura(newFac)
+                conexion.Conexion.mostrarTabFacturas(self)
+                print(newFac)
 
         except Exception as error:
             print('Error al guardar la factura:', error)
 
     def borraFactura(self):
         try:
-            numeroFactura = var.ui.txtNumFactura.text()
-            conexion.Conexion.borraFactura(numeroFactura)
-            conexion.Conexion.mostrarTabFacturas(self)
+            if var.ui.txtDNIFactura.text() == '' or var.ui.txtMatriculaFactura.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede eliminar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                numeroFactura = var.ui.txtNumFactura.text()
+                conexion.Conexion.borraFactura(numeroFactura)
+                conexion.Conexion.mostrarTabFacturas(self)
 
         except Exception as error:
             print('Error al borrar cliente:', error)

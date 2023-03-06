@@ -1,6 +1,7 @@
 import clientes
 import conexion
 import facturas
+import servicios
 import var
 from ventMain import *
 
@@ -91,47 +92,56 @@ class Clientes():
             checks = [var.ui.chkTrans, var.ui.chkTarj, var.ui.chkEfectivo]
             for i in checks:
                 i.setChecked(False)
+            servicios.Servicios.limpiaServicio()
+            facturas.Facturas.limpiaFact()
 
         except Exception as error:
             print('Error al limpiar el cliente:', error)
 
     def guardaCli(self):
         try:
-            newcli = []
-            newcar = []
-            pagos = []
+            if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede guardar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                newcli = []
+                newcar = []
+                pagos = []
 
-            cliente = [var.ui.txtDNI, var.ui.txtNombreCli, var.ui.txtFechaAltaCli, var.ui.txtDir]
-            car = [var.ui.txtMatricula, var.ui.txtMarca, var.ui.txtModelo]
-            for i in cliente:
-                newcli.append(i.text())
-            for i in car:
-                newcar.append(i.text())
+                cliente = [var.ui.txtDNI, var.ui.txtNombreCli, var.ui.txtFechaAltaCli, var.ui.txtDir]
+                car = [var.ui.txtMatricula, var.ui.txtMarca, var.ui.txtModelo]
+                for i in cliente:
+                    newcli.append(i.text())
+                for i in car:
+                    newcar.append(i.text())
 
-            prov = var.ui.cbProvincia.currentText()
-            motor = Clientes.checkMotor()
-            muni = var.ui.cbMunicipio.currentText()
+                prov = var.ui.cbProvincia.currentText()
+                motor = Clientes.checkMotor()
+                muni = var.ui.cbMunicipio.currentText()
 
-            newcli.append(prov)
-            newcli.append(muni)
-            newcar.append(motor)
+                newcli.append(prov)
+                newcli.append(muni)
+                newcar.append(motor)
 
-            if var.ui.chkTarj.isChecked():
-                pagos.append('Tarjeta')
+                if var.ui.chkTarj.isChecked():
+                    pagos.append('Tarjeta')
 
-            elif var.ui.chkEfectivo.isChecked():
-                pagos.append('Efectivo')
+                elif var.ui.chkEfectivo.isChecked():
+                    pagos.append('Efectivo')
 
-            elif var.ui.chkTrans.isChecked():
-                pagos.append('Transferencia')
+                elif var.ui.chkTrans.isChecked():
+                    pagos.append('Transferencia')
 
-            pagos = set(pagos)  # Para evitar duplicados
-            newcli.append('; '.join(pagos))
+                pagos = set(pagos)  # Para evitar duplicados
+                newcli.append('; '.join(pagos))
 
-            conexion.Conexion.altaCli(newcli, newcar)
-            conexion.Conexion.mostrarTabcarcli(self)
-            print(newcli)
-            print(newcar)
+                conexion.Conexion.altaCli(newcli, newcar)
+                conexion.Conexion.mostrarTabcarcli(self)
+                print(newcli)
+                print(newcar)
 
         except Exception as error:
             print('Error al guardar el cliente:', error)
@@ -139,38 +149,45 @@ class Clientes():
 
     def modifCli(self=None):
         try:
-            modcli = []
-            modcar = []
+            if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede modificar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                modcli = []
+                modcar = []
 
-            cliente = [var.ui.txtDNI, var.ui.txtNombreCli, var.ui.txtFechaAltaCli, var.ui.txtDir]
-            for i in cliente:
-                modcli.append(i.text())
+                cliente = [var.ui.txtDNI, var.ui.txtNombreCli, var.ui.txtFechaAltaCli, var.ui.txtDir]
+                for i in cliente:
+                    modcli.append(i.text())
 
-            prov = var.ui.cbProvincia.currentText()
-            modcli.append(prov)
+                prov = var.ui.cbProvincia.currentText()
+                modcli.append(prov)
 
-            muni = var.ui.cbMunicipio.currentText()
-            modcli.append(muni)
+                muni = var.ui.cbMunicipio.currentText()
+                modcli.append(muni)
 
-            pagos = []
-            if var.ui.chkEfectivo.isChecked():
-                pagos.append('Efectivo')
-            if var.ui.chkTarj.isChecked():
-                pagos.append('Tarjeta')
-            if var.ui.chkTrans.isChecked():
-                pagos.append('Transferencia')
-            pagos = set(pagos)
-            modcli.append('; '.join(pagos))
+                pagos = []
+                if var.ui.chkEfectivo.isChecked():
+                    pagos.append('Efectivo')
+                if var.ui.chkTarj.isChecked():
+                    pagos.append('Tarjeta')
+                if var.ui.chkTrans.isChecked():
+                    pagos.append('Transferencia')
+                pagos = set(pagos)
+                modcli.append('; '.join(pagos))
 
-            car = [var.ui.txtMatricula, var.ui.txtMarca, var.ui.txtModelo]
-            for i in car:
-                modcar.append(i.text())
-            motor = Clientes.checkMotor()
-            modcar.append(motor)
+                car = [var.ui.txtMatricula, var.ui.txtMarca, var.ui.txtModelo]
+                for i in car:
+                    modcar.append(i.text())
+                motor = Clientes.checkMotor()
+                modcar.append(motor)
 
-            conexion.Conexion.modificarDatosCliente(modcli, modcar)
+                conexion.Conexion.modificarDatosCliente(modcli, modcar)
 
-            conexion.Conexion.mostrarTabcarcli(self)
+                conexion.Conexion.mostrarTabcarcli(self)
 
         except Exception as error:
             print('Error al modificar cliente: ', error)
@@ -219,10 +236,17 @@ class Clientes():
 
     def borraCli(self):
         try:
-            dni = var.ui.txtDNI.text()
-            #conexion.Conexion.altaHistorico(cliente, coche)
-            conexion.Conexion.borraCli(dni)
-            conexion.Conexion.mostrarTabcarcli(self)
+            if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('No se puede eliminar un registro con parámetros vacíos')
+                msg.exec()
+            else:
+                dni = var.ui.txtDNI.text()
+                #conexion.Conexion.altaHistorico(cliente, coche)
+                conexion.Conexion.borraCli(dni)
+                conexion.Conexion.mostrarTabcarcli(self)
 
         except Exception as error:
             print('Error al borrar cliente:', error)

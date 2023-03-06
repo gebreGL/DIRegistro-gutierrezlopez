@@ -2,6 +2,7 @@ from datetime import datetime
 
 from PyQt6 import QtWidgets, QtSql
 
+import conexion
 import var
 import clientes, facturas, events
 from ventMain import *
@@ -491,6 +492,27 @@ class Conexion():
             print('Problema al mostrar el listado de facturas:', error)
 
 
+    def mostrarTabFacturasBuscadas(dni):
+        try :
+            index = 0
+            query = QtSql.QSqlQuery()
+            query.prepare('select * from facturas where dni = :dniCli')
+            query.bindValue('dniCli', str(dni))
+
+            if query.exec():
+                while query.next():
+                    var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
+                    var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
+                    var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
+                    var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    index += 1
+
+        except Exception as error:
+            print('Problema al mostrar el listado de facturas buscadas:', error)
+
+
+
     def cargaComboVenta(self):
         try:
             var.cmbServicio.clear()
@@ -544,15 +566,31 @@ class Conexion():
     def buscarFactura(self):
         try:
             factura = []
-            parametro = var.ui.txtBuscar()
+            parametro = var.ui.txtBuscar.text()
             query = QtSql.QSqlQuery()
-            query.prepare('select * from facturas where dni = :parametro or matfac = :parametro')
+            query.prepare('select * from facturas where dni = :parametro or idfac = :parametro')
             query.bindValue(':parametro', str(parametro))
-            if query.exec():
-                while query.next():
-                    for i in range(2):
-                        factura.append(str(query.value(i)))
-            return factura
+            if var.ui.txtBuscar.text() == '':
+                msg = QtWidgets.QMessageBox()
+                msg.setWindowTitle('Aviso')
+                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                msg.setText('Debe introducir un valor en el campo de texto')
+                msg.exec()
+            else :
+                if query.exec():
+                    while query.next():
+                        for i in range(4):
+                            factura.append(str(query.value(i)))
+                    Conexion.mostrarTabFacturasBuscadas(factura[1])
+                else:
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle('Aviso')
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    msg.setText(query.lastError().text())
+                    msg.exec()
+
+            print(factura)
+
         except Exception as e:
             print('Error al buscar factura:', e)
 
