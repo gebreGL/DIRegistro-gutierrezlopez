@@ -201,6 +201,7 @@ class Informes:
                 var.report.drawString(470, 560, str(items[4]))
                 var.report.line(50, 550, 525, 550)
 
+                subtotal = 0.00
                 codigo = var.ui.txtNumFactura.text()
                 query = QtSql.QSqlQuery()
                 query.prepare('select id_venta, codigo_servicio, precio, unidades '
@@ -209,7 +210,7 @@ class Informes:
 
                 var.report.setFont('Helvetica', size=8)
                 if query.exec():
-                    i = 80
+                    i = 75
                     j = 535
                     while query.next():
                         if j <= 80:
@@ -237,12 +238,13 @@ class Informes:
                             while query2.next():
                                 concepto = str(query2.value(0))
                                 print(concepto)
+                                subtotal = subtotal + round(query.value(1) * query.value(2), 2)
                                 var.report.setFont('Helvetica', size=8)
                                 var.report.drawString(i, j, str(query.value(0)))
                                 var.report.drawString(i + 55, j, str(concepto))
-                                var.report.drawString(i + 200, j, str(query.value(2)))
+                                var.report.drawString(i + 200, j, str(query.value(2)) + ' €')
                                 var.report.drawString(i + 305, j, str(query.value(3)))
-                                var.report.drawString(i + 410, j, str())
+                                var.report.drawString(i + 410, j, str(round(subtotal)) + ' €')
                                 j = j - 20
 
 
