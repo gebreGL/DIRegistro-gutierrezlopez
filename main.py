@@ -38,7 +38,7 @@ class DialogCalendar(QtWidgets.QMainWindow) :
         var.dlgCalendar.calendar.clicked.connect(clientes.Clientes.cargaFecha)
 
 '''
-Listado de funciones de la clase main 
+Listado de funciones de la clase Main 
 '''
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
