@@ -7,8 +7,22 @@ import var
 import clientes, facturas, events
 from ventMain import *
 
+
+
 class Conexion():
+    '''
+    Listado de funciones de la clase Conexión
+    '''
+
     def conexion(self = None):
+        '''
+        Método que establece la conexión con la base de datos y devuelve un valor booleano en función de
+        si esta se establece (true) o no (false)
+
+        :param: None
+
+        :return: boolean
+        '''
         filebd = 'bbdd.sqLite'
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
         db.setDatabaseName(filebd)
@@ -21,7 +35,15 @@ class Conexion():
             print('Conexión establecida')
         return True
 
+
     def cargarProv(self = None):
+        '''
+        Método que carga las provincias de la base de datos en un comboBox
+
+        :param: None
+
+        :return: None
+        '''
         try:
             var.ui.cbProvincia.clear()  #Cada vez que vaya a cargar, lo limpia y vuelve a citar las provincias
             query = QtSql.QSqlQuery()
@@ -36,6 +58,13 @@ class Conexion():
 
 
     def selMuni(self = None):
+        '''
+        Método que carga los municipios de la base de datos en un comboBox en función de la provincia seleccionada
+
+        :param: None
+
+        :return: None
+        '''
         try:
             id = 0
             var.ui.cbMunicipio.clear()
@@ -57,8 +86,17 @@ class Conexion():
         except Exception as error:
             print('Error al cargar los municipios:', error)
 
+
     @staticmethod
     def altaCli(newcli, newcar):
+        '''
+        Método estático para dar de alta en la base de datos a un cliente
+
+        :param: newcli: array de datos de un cliente
+        :param: newcar: array de datos de un coche
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             queryCli = QtSql.QSqlQuery()
@@ -101,8 +139,16 @@ class Conexion():
         except Exception as error:
             print('Problemas en la conexión al dar de alta al cliente:', error)
 
+
     @staticmethod
     def altaServicio(newservicio):
+        '''
+        Método estático para dar de alta en la base de datos a un servicio
+
+        :param: newservicio: array de datos de un servicio
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into servicios (concepto, preciounidad) VALUES (:concepto, :preciounidad)')
@@ -127,7 +173,15 @@ class Conexion():
             print('Problemas en la conexión al dar de alta al servicio:', error)
 
 
+
     def altaExcelCoche(new):
+        '''
+        Método que da de alta a un coche en la base de datos
+
+        :param: new: array de datos de un coche
+
+        :return: None
+        '''
         try:
             query1 = QtSql.QSqlQuery()
             query1.prepare('insert into coches (matricula, dnicli, marca, modelo, motor) '
@@ -145,6 +199,13 @@ class Conexion():
 
 
     def mostrarTabcarcli(self):
+        '''
+        Método que muestra los datos de un cliente de la base de datos en una tabla
+
+        :param: self
+
+        :return: None
+        '''
         try :
             index = 0
             query = QtSql.QSqlQuery()
@@ -169,6 +230,14 @@ class Conexion():
 
 
     def mostrarHistorico(self = None):
+        '''
+        Método que muestra en la tabla de cliente todos los registros de los clientes,
+        incluso los que han sido dados de baja
+
+        :param: None
+
+        :return: None
+        '''
         try:
             if var.ui.chkHistorico.isChecked():
                 index = 0
@@ -213,7 +282,15 @@ class Conexion():
         except Exception as error:
             print('Problema al mostrar el historico de coches y clientes:', error)
 
+
     def oneCli(dni):
+        '''
+        Método que devuelve un array de datos de un cliente en función de su dni
+
+        :param: dni: String que almacena el dni de un cliente
+
+        :return: array de datos de un cliente
+        '''
         try:
             registro = []
             query = QtSql.QSqlQuery()
@@ -231,6 +308,13 @@ class Conexion():
 
 
     def borraCli(dni):
+        '''
+        Método que da de baja a un cliente en función de su dni insertando una fecha de baja en la base de datos
+
+        :param: dni: String que almacena el dni de un cliente
+
+        :return: None
+        '''
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y-%m-%d-%H.%M.%S')
@@ -262,33 +346,20 @@ class Conexion():
                 msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 msg.setText(query.lastError().text())
                 msg.exec()
-            '''
-            query1 = QtSql.QSqlQuery()
-            query1.prepare('delete from coches where dni_cli = :dni')
-            query1.bindValue(':dni', str(dni))
-            if query1.exec():
-                pass
-            query =  QtSql.QSqlQuery()
-            query.prepare('delete from clientes where dni = :dni')
-            query.bindValue(':dni', str(dni))
-            if query.exec():
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Icon.Information)
-                msg.setText('Cliente dado de baja correctamente')
-                msg.exec()
-            else:
-                msg = QtWidgets.QMessageBox()
-                msg.setWindowTitle('Aviso')
-                msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                msg.setText(query.lastError().text())
-                msg.exec()
-            '''
 
         except Exception as error:
             print('Error al borrar cliente:', error)
 
+
     def borraServ(codigo):
+        '''
+        Método que borra un servicio de la base de datos
+
+        :param: codigo: entero que almacena el codigo de un servicio, el cual es la clave primaria de la tabla servicios
+                        en la base de datos
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('delete from servicios where codigo = :codigo')
@@ -311,6 +382,14 @@ class Conexion():
 
 
     def borraFactura(idfac):
+        '''
+        Método que borra una factura de la base de datos
+
+        :param: idfac: entero que almacena el codigo de una factura, la cual es la clave primaria de la tabla facturas
+                    en la base de datos
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('delete from facturas where idfac = :idfac')
@@ -332,7 +411,16 @@ class Conexion():
             print('Error al borrar imprimirFactura en conexion:', error)
 
 
+
     def modificarDatosCliente(modcli, modcar):
+        '''
+        Método para modificar los datos de un cliente y un coche en la base de datos
+
+        :param: modcli: array de datos nuevos que va a tomar el nuevo cliente
+        :param: modcli: array de datos nuevos que va a tomar el nuevo coche
+
+        :return: None
+        '''
         try:
             registroCli = []
             registroCar = []
@@ -367,7 +455,17 @@ class Conexion():
         except Exception as error:
             print('Error al modificar datos en eventos: ', error)
 
+
+
     def modificaCli(modcli, modcar):
+        '''
+        Método que modifica los datos de un cliente y coche en la base de datos
+
+        :param: modcli: array de datos nuevos que va a tomar el nuevo cliente
+        :param: modcli: array de datos nuevos que va a tomar el nuevo coche
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -413,6 +511,13 @@ class Conexion():
 
 
     def modificaServ(modserv):
+        '''
+        Método que modifica los datos de un servicio en la base de datos
+
+        :param: modserv: array de datos nuevos que va a tomar el nuevo servicio
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare(
@@ -441,6 +546,13 @@ class Conexion():
 
 
     def buscaServicio(concepto):
+        '''
+        Método que busca un servicio en la base de datos
+
+        :param: concepto: String que almacena el concepto por el cual se va a buscar un servicio
+
+        :return: String con el código del servicio buscado
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('select codigo from servicios where concepto = :concepto')
@@ -454,6 +566,13 @@ class Conexion():
 
 
     def mostrarTabServicios(self):
+        '''
+        Método que muestra los datos de todos los servicios de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try :
             index = 0
             query = QtSql.QSqlQuery()
@@ -473,7 +592,15 @@ class Conexion():
         except Exception as error:
             print('Problema al mostrar el listado de servicios:', error)
 
+
     def mostrarTabFacturas(self):
+        '''
+        Método que muestra los datos de todas las facturas de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try :
             index = 0
             query = QtSql.QSqlQuery()
@@ -492,28 +619,15 @@ class Conexion():
             print('Problema al mostrar el listado de facturas:', error)
 
 
-    def mostrarTabFacturasBuscadas(dni):
-        try :
-            index = 0
-            query = QtSql.QSqlQuery()
-            query.prepare('select * from facturas where dni = :dniCli')
-            query.bindValue('dniCli', str(dni))
-
-            if query.exec():
-                while query.next():
-                    var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
-                    var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
-                    var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
-                    var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    index += 1
-
-        except Exception as error:
-            print('Problema al mostrar el listado de facturas buscadas:', error)
-
-
 
     def cargaComboVenta(self):
+        '''
+        Método que carga en un comboBox todos los concetos de los servicios de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.cmbServicio.clear()
             query = QtSql.QSqlQuery()
@@ -528,6 +642,13 @@ class Conexion():
 
 
     def restoDatosFactura(numFactura):
+        '''
+        Método que devuelve datos de una factura en función de su numéro de factura
+
+        :param: numFactura: entero que almacena el número de una factura
+
+        :return: array de datos de una factura en función de su número de factura
+        '''
         try:
             datos = []
             query = QtSql.QSqlQuery()
@@ -544,6 +665,13 @@ class Conexion():
 
 
     def obtenerPrecio(servicio):
+        '''
+        Método que devuelve el precio de un servicio en función de su concepto
+
+        :param: servicio: String que almacena el concepto de un servicio
+
+        :return: array de datos de un servicio en función de su concepto
+        '''
         try:
             datos = []
             query = QtSql.QSqlQuery()
@@ -564,32 +692,60 @@ class Conexion():
 
 
     def buscarFactura(self):
+        '''
+        Método que facturas en la base de datos en función de su parámetro introducido en la caja de texto
+
+        :param: self
+
+        :return: None
+        '''
         try:
-            factura = []
+            index = 0
             parametro = var.ui.txtBuscar.text()
-            query = QtSql.QSqlQuery()
-            query.prepare('select * from facturas where dni = :parametro or idfac = :parametro')
-            query.bindValue(':parametro', str(parametro))
+
             if var.ui.txtBuscar.text() == '':
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
                 msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
                 msg.setText('Debe introducir un valor en el campo de texto')
                 msg.exec()
-            else :
-                if query.exec():
-                    while query.next():
-                        for i in range(4):
-                            factura.append(str(query.value(i)))
-                    Conexion.mostrarTabFacturasBuscadas(factura[1])
+            else:
+                query = QtSql.QSqlQuery()
+                query.prepare('select idfac, dni from facturas where idfac = :parametro')
+                query.bindValue(':parametro', str(parametro))
+                if not query.isActive():
+                    query2 = QtSql.QSqlQuery()
+                    query2.prepare('select idfac, dni from facturas where dni = :parametro')
+                    query2.bindValue(':parametro', str(parametro))
+                    if query2.exec():
+                        while query2.next():
+                            var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
+                            var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query2.value(0))))
+                            var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query2.value(1))))
+                            var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                            var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                            index += 1
+                    else:
+                        msg = QtWidgets.QMessageBox()
+                        msg.setWindowTitle('Aviso')
+                        msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                        msg.setText(query.lastError().text())
+                        msg.exec()
                 else:
-                    msg = QtWidgets.QMessageBox()
-                    msg.setWindowTitle('Aviso')
-                    msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                    msg.setText(query.lastError().text())
-                    msg.exec()
-
-            print(factura)
+                    if query.exec():
+                        while query.next():
+                            var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
+                            var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
+                            var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
+                            var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                            var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                            index += 1
+                    else:
+                        msg = QtWidgets.QMessageBox()
+                        msg.setWindowTitle('Aviso')
+                        msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                        msg.setText(query.lastError().text())
+                        msg.exec()
 
         except Exception as e:
             print('Error al buscar imprimirFactura:', e)
@@ -597,6 +753,13 @@ class Conexion():
 
     @staticmethod
     def altaFactura(newFac):
+        '''
+        Método estático para dar de alta en la base de datos a una factura
+
+        :param: newFac: array de datos de una factura
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into facturas (dni, matfac, fechafac) VALUES (:dni, :matfac, :fechafac)')
@@ -619,14 +782,13 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Problemas en la conexión al dar de alta la imprimirFactura:', error)
+            print('Problemas en la conexión al dar de alta la factura:', error)
 
     def cargarLineasVenta(codigo_factura):
         """
+        Carga las lineas de venta de una factura en la tabla de ventas
 
-        Carga las lineas de venta de una imprimirFactura en la tabla de ventas
-
-        :param codigo_factura: el codigo de la imprimirFactura
+        :param codigo_factura: el codigo de la facturaactura
 
         :return: None
         """
@@ -694,6 +856,13 @@ class Conexion():
             print('Error en conexion.cargarlineasventa: ', error)
 
     def buscarConceptoServicio(codigo_servicio):
+        '''
+        Método para buscar el concepto de un servicio en la base de datos en función de su código
+
+        :param: newservicio: array de datos de un servicio
+
+        :return: None
+        '''
         try:
 
             query = QtSql.QSqlQuery()
@@ -709,6 +878,13 @@ class Conexion():
             print('Error en buscarConceptoServicio:', e)
 
     def borrarLineaVenta(codigo_venta):
+        '''
+        Método estático para dar de alta en la base de datos a un servicio
+
+        :param: codigo_servicio: entero que almacena el valor del código de una venta
+
+        :return: None
+        '''
         try:
 
             query = QtSql.QSqlQuery()
@@ -723,6 +899,13 @@ class Conexion():
 
 
     def cargarVentas(venta):
+        '''
+        Método para registrar nuevas ventas en la base de datos
+
+        :param: venta: array de datos nuevos de una venta
+
+        :return: None
+        '''
         try:
             query = QtSql.QSqlQuery()
             query.prepare('insert into ventas (codigo_factura, codigo_servicio, precio, unidades) '

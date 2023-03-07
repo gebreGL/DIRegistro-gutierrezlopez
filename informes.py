@@ -7,7 +7,17 @@ import conexion
 
 
 class Informes:
+    '''
+    Lista de funciones de la clase Informes
+    '''
     def listClientes(self):
+        '''
+        Módulo para crear el informe de los clientes de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.report = canvas.Canvas('informes/listadoClientes.pdf')
             titulo = 'LISTADO CLIENTES'
@@ -64,6 +74,13 @@ class Informes:
 
 
     def listAutos(self):
+        '''
+        Módulo para crear el informe de los coches de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.report = canvas.Canvas('informes/listadoAutos.pdf')
             titulo = 'LISTADO VEHÍCULOS'
@@ -120,6 +137,13 @@ class Informes:
 
     #Pie de página
     def pie_Informe(titulo):
+        '''
+        Módulo para crear el pie de página de los informes a crear
+
+        :param: titulo: String que almacena el valor del título a poner en el informe
+
+        :return: None
+        '''
         try:
             var.report.line(50, 50, 525, 50)
             fecha = datetime.today()
@@ -134,6 +158,13 @@ class Informes:
 
 
     def top_Informe(titulo):
+        '''
+        Módulo para crear la cabecera del informe a crear
+
+        :param: titulo: String que almacena el valor del título a poner en el informe
+
+        :return: None
+        '''
         try:
             logo = '.\img\\logo.png'
             var.report.line(50, 800, 525, 800)
@@ -154,12 +185,26 @@ class Informes:
 
 
     def cifrar(dni):
+        '''
+        Módulo para cifrar un dni con asteriscos
+
+        :param: dni: String que almacena el valor del dni
+
+        :return: devuelve el dni cifrado
+        '''
         asteriscos = [0, 1, 2, 3, 4, 8]
         for i in asteriscos:
             dni = dni[:i] + '*' + dni[i+1:]
         return dni
 
     def imprimirFactura(self):
+        '''
+        Módulo para imprimir los datos de una determinada factura
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.report = canvas.Canvas('informes/factura.pdf')
             titulo = 'FACTURA'

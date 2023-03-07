@@ -5,8 +5,18 @@ import var
 
 
 class Servicios():
+    '''
+    Listado de funciones de la clase Servicios
+    '''
 
     def limpiaServicio(self=None):
+        '''
+        Módulo para limpiar los datos de las cajas de texto relacionados con los servicios
+
+        :param: None
+
+        :return: None
+        '''
         try:
             servicio = [var.ui.txtCodigo, var.ui.txtConcepto, var.ui.txtPrecio]
             for i in servicio:
@@ -16,6 +26,13 @@ class Servicios():
             print('Error al limpiar el servicio:', error)
 
     def guardaServicio(self):
+        '''
+        Módulo para guardar un nuevo servicio
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
                 msg = QtWidgets.QMessageBox()
@@ -39,6 +56,13 @@ class Servicios():
 
 
     def cargaServicio(self=None):
+        '''
+        Módulo para cargar los datos de un servicio selecicoando en las cajas de texto
+
+        :param: None
+
+        :return: None
+        '''
         try:
             Servicios.limpiaServicio()
             fila = var.ui.tabServizos.selectedItems()
@@ -57,6 +81,13 @@ class Servicios():
 
 
     def modifServ(self=None):
+        '''
+        Módulo para modificar un servicio
+
+        :param: None
+
+        :return: None
+        '''
         try:
             if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
                 msg = QtWidgets.QMessageBox()
@@ -80,6 +111,13 @@ class Servicios():
 
 
     def borraServ(self):
+        '''
+        Módulo para borrar un servicio
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtConcepto.text() == '' or var.ui.txtPrecio.text() == '':
                 msg = QtWidgets.QMessageBox()

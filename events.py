@@ -13,7 +13,17 @@ import var
 
 
 class Eventos:
+    '''
+    Listado de funciones de la clase Eventos
+    '''
     def salir(self):
+        '''
+        Módulo para salir de la interfaz de usuario
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.avisosalir.show()
             if var.avisosalir.exec():
@@ -24,6 +34,13 @@ class Eventos:
             print("Error en función salir:", str(error))
 
     def letrasCapital(self = None):
+        '''
+        Módulo para poner un texto en mayúsculas
+
+        :param: None
+
+        :return: None
+        '''
         try:
             var.ui.txtNombreCli.setText(var.ui.txtNombreCli.text().title())
             var.ui.txtDir.setText(var.ui.txtDir.text().title())
@@ -34,6 +51,13 @@ class Eventos:
             print('Error al capitalizar letras:', error)
 
     def abrirCalendar(self):
+        '''
+        Módulo para abrir el calendario y seleccionar una fecha
+
+        :param: self
+
+        :return: None
+        '''
         try:
             var.dlgCalendar.show()
         except Exception as error:
@@ -41,6 +65,13 @@ class Eventos:
 
 
     def resizeTablacarcli(self):
+        '''
+        Módulo para reajustar el tamaño de la tabla de clientes
+
+        :param: self
+
+        :return: None
+        '''
         try:
             header = var.ui.tabClientes.horizontalHeader()
             for i in range(5):
@@ -52,6 +83,13 @@ class Eventos:
 
 
     def resizeTablaServicios(self):
+        '''
+        Módulo para reajustar el tamaño de la tabla de servicios
+
+        :param: self
+
+        :return: None
+        '''
         try:
             header = var.ui.tabServizos.horizontalHeader()
             for i in range(3):
@@ -61,20 +99,15 @@ class Eventos:
         except Exception as error:
             print('Error al reajustar tabla Servicios:', error)
 
-    '''
-    def resizeTablaFacturas(self):
-        try:
-            header = var.ui.tabFacturas.horizontalHeader()
-            for i in range(1):
-                header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
-                if i == 0 or i == 1:
-                    header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-        except Exception as error:
-            print('Error al reajustar tabla Facturas:', error)
-    '''
-
 
     def creaBackup(self):
+        '''
+        Módulo para crear una copia de seguridad de los datos la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             fecha = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
             copia = (str(fecha) + '_backup.zip')
@@ -96,6 +129,13 @@ class Eventos:
             print('Error al crear el backup:', error)
 
     def restauraBackup(self = None):
+        '''
+        Módulo para restaurar una copia de seguridad en la base de datos
+
+        :param: None
+
+        :return: None
+        '''
         try:
             filename = var.dlgAbrir.getOpenFileName(None, 'Restaurar Copia Seguridad',
                                                     '', '*.zip;;All Files')
@@ -118,9 +158,23 @@ class Eventos:
 
 
     def mostrarExportar(self):
+        '''
+        Módulo para mostrar el dialogo paa exportar
+
+        :param: self
+
+        :return: None
+        '''
         var.dlgExportar.show()
 
     def exportarDatos(self):
+        '''
+        Módulo para exportar los datos de un cliente
+
+        :param: self
+
+        :return: None
+        '''
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')
@@ -168,6 +222,13 @@ class Eventos:
 
 
     def exportarServicio(self):
+        '''
+        Módulo para exportar un servicio
+
+        :param: self
+
+        :return: None
+        '''
         try:
             fecha = datetime.today()
             fecha = fecha.strftime('%Y.%m.%d.%H.%M.%S')
@@ -204,6 +265,13 @@ class Eventos:
 
 
     def importarDatos(self):
+        '''
+        Módulo para importar los datos de un cliente
+
+        :param: self
+
+        :return: None
+        '''
         try:
             filename = var.dlgAbrir.getOpenFileName(None, 'Importar datos', '', '*.xls;;All Files(*)')
             if var.dlgAbrir.accept and filename != '':
@@ -234,6 +302,13 @@ class Eventos:
             print('Error al importar datos:', error)
 
     def resizeTablaventas(self):
+        '''
+        Módulo para reajustar el tamaño de la tabla de ventas
+
+        :param: self
+
+        :return: None
+        '''
         try:
             header = var.ui.tabVentas.horizontalHeader()
 
@@ -243,11 +318,6 @@ class Eventos:
             header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
             header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
-
-            # for i in range(3):
-            #     if i == 0 or i == 1:
-            #         header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
-            #     header.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         except Exception as error:
             print('Error:', error)

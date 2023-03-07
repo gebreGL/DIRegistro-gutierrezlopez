@@ -37,7 +37,9 @@ class DialogCalendar(QtWidgets.QMainWindow) :
         var.dlgCalendar.calendar.setSelectedDate(QtCore.QDate(ano, mes, dia))
         var.dlgCalendar.calendar.clicked.connect(clientes.Clientes.cargaFecha)
 
-
+'''
+Listado de funciones de la clase main 
+'''
 class Main(QtWidgets.QMainWindow):
     def __init__(self):
         super(Main, self).__init__()
@@ -65,7 +67,6 @@ class Main(QtWidgets.QMainWindow):
         var.ui.actionRestaurar_Copia_Seguridad.triggered.connect(events.Eventos.restauraBackup)
         var.ui.actionbackup.triggered.connect(events.Eventos.creaBackup)
         var.ui.actionrestBackup.triggered.connect(events.Eventos.restauraBackup)
-        #var.ui.actionExportar_Datos.triggered.connect(events.Eventos.mostrarExportar)
         var.ui.actionExportar_Datos.triggered.connect(events.Eventos.exportarDatos)
         var.ui.actionImportar_Datos.triggered.connect(events.Eventos.importarDatos)
         var.ui.actionInformes_Clientes.triggered.connect(informes.Informes.listClientes)
@@ -116,7 +117,8 @@ class Main(QtWidgets.QMainWindow):
 
         var.ui.btnModificarServizo.clicked.connect(servicios.Servicios.modifServ)
 
-        var.ui.btnRecargar.clicked.connect(facturas.Facturas.limpiaFact)
+        var.ui.btnRecargar.clicked.connect(conexion.Conexion.mostrarTabFacturas)
+
 
         '''
         Funciones relacionadas con las tablas
@@ -127,9 +129,7 @@ class Main(QtWidgets.QMainWindow):
         events.Eventos.resizeTablacarcli(self)
 
         events.Eventos.resizeTablaServicios(self)
-        #events.Eventos.resizeTablaFacturas(self)
 
-        #var.ui.tabClientes.setTelectionBehavior(QtWidgets.QTableWidget.S)
         var.ui.tabClientes.clicked.connect(clientes.Clientes.cargaCliente)
         var.ui.chkHistorico.stateChanged.connect(conexion.Conexion.mostrarHistorico)
 

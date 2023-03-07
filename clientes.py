@@ -7,13 +7,17 @@ from ventMain import *
 
 
 class Clientes():
+    '''
+    Listado de funciones de la clase Clientes
+    '''
     def validarDNI(dni):
-
         '''
-        Modulo para la validacion del DNI
-        :return: booleano
-        '''
+        Módulo para la validación del DNI, devuelve True en caso positivo y False en caso negativo
 
+        :param: dni: String que almacena el valor de un dni
+
+        :return: boolean
+        '''
         try:
             tabla = 'TRWAGMYFPDXBNJZSQCHLCKE'
             dig_ext = 'XYZ'
@@ -31,7 +35,15 @@ class Clientes():
         except Exception as error:
             print('Error al validar dni:', error)
 
+
     def mostrarValidadoDNI(self=None):
+        '''
+        Módulo para mostrar la validación del DNI
+
+        :param: None
+
+        :return: None
+        '''
         try:
             dni = var.ui.txtDNI.text()
             if Clientes.validarDNI(dni):
@@ -48,6 +60,13 @@ class Clientes():
             print('Error al validar dni:', error)
 
     def selMotor(self=None):
+        '''
+        Módulo para seleccionar el tipo de motor de un coche
+
+        :param: None
+
+        :return: None
+        '''
         try:
             var.motor = (var.ui.rbtGasolina, var.ui.rbtDiesel, var.ui.rbtHibrido, var.ui.rbtElectrico)
             for i in var.motor:
@@ -57,6 +76,13 @@ class Clientes():
             print('Error seleccion motor:', error)
 
     def checkMotor(self=None):
+        '''
+        Módulo para la validación del tipo de motor, devuelve el tipo de motor seleccionado
+
+        :param: None
+
+        :return: boolean
+        '''
         try:
             if var.ui.rbtGasolina.isChecked():
                 motor = 'Gasolina'
@@ -73,6 +99,13 @@ class Clientes():
             print('Error seleccion motor:', error)
 
     def cargaFecha(qDate):
+        '''
+        Módulo para cargar la fecha de alta de un cliente
+
+        :param: qDate: almacena la fecha
+
+        :return: None
+        '''
         try:
             data = ('{0}/{1}/{2}'.format(qDate.day(), qDate.month(), qDate.year()))
             var.ui.txtFechaAltaCli.setText(str(data))
@@ -81,6 +114,13 @@ class Clientes():
             print('Error al cargar fecha de alta del cliente: ', e)
 
     def limpiaCli(self=None):
+        '''
+        Módulo para limpiar los datos de un cliente en sus cajas
+
+        :param: None
+
+        :return: None
+        '''
         try:
             cliente = [var.ui.txtDNI, var.ui.txtNombreCli, var.ui.txtDir,
                        var.ui.txtFechaAltaCli, var.ui.txtMatricula, var.ui.txtModelo, var.ui.txtMarca]
@@ -99,6 +139,13 @@ class Clientes():
             print('Error al limpiar el cliente:', error)
 
     def guardaCli(self):
+        '''
+        Módulo para guardar un nuevo cliente en la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
                 msg = QtWidgets.QMessageBox()
@@ -148,6 +195,13 @@ class Clientes():
 
 
     def modifCli(self=None):
+        '''
+        Módulo para modificar un registro de un cliente en la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
                 msg = QtWidgets.QMessageBox()
@@ -194,6 +248,13 @@ class Clientes():
 
 
     def cargaCliente(self=None):
+        '''
+        Módulo para cargar los datos de un regs¡istro de cliente selecioando en la tabla
+
+        :param: self
+
+        :return: None
+        '''
         try:
             Clientes.limpiaCli()
             facturas.Facturas.limpiaFact()
@@ -235,6 +296,13 @@ class Clientes():
 
 
     def borraCli(self):
+        '''
+        Módulo para borrar el registro de un cliente en la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtDNI.text() == '' or var.ui.txtMatricula.text() == '':
                 msg = QtWidgets.QMessageBox()

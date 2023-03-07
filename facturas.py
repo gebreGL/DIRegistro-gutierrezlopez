@@ -6,9 +6,18 @@ from clientes import Clientes
 
 
 class Facturas():
-
+    '''
+    Lisatdo de las funciones de la clase Facturas
+    '''
 
     def limpiaFact(self=None):
+        '''
+        Módulo para limpiar las cajas de texto referenciadas a las facturas
+
+        :param: None
+
+        :return: None
+        '''
         try:
             factura = [var.ui.txtNumFactura, var.ui.txtDNIFactura, var.ui.txtMatriculaFactura,
                        var.ui.txtFechaFactura, var.ui.txtBuscar]
@@ -19,6 +28,13 @@ class Facturas():
             print('Error al limpiar imprimirFactura:', error)
 
     def cargaFactura(self=None):
+        '''
+        Módulo para cargar los datos de la factura seleccionada en las cajas de texto
+
+        :param: None
+
+        :return: None
+        '''
         try:
             Facturas.limpiaFact()
             fila = var.ui.tabFacturas.selectedItems()
@@ -44,6 +60,13 @@ class Facturas():
 
 
     def cargaLineaVenta(index):
+        '''
+        Módulo para cargar las lineas de venta de una factura
+
+        :param: index: entero que almacenael valor de un índice
+
+        :return: None
+        '''
         try:
             var.cmbServicio = QtWidgets.QComboBox()
             var.cmbServicio.setFixedSize(140, 28)
@@ -65,6 +88,13 @@ class Facturas():
 
 
     def cargaPrecioVenta(self):
+        '''
+        Módulo para cargar el precio de venta de un servicio en la tabla de ventas
+
+        :param: self
+
+        :return: None
+        '''
         try:
             row = var.ui.tabVentas.currentRow()
             servicio = var.cmbServicio.currentText()
@@ -82,6 +112,13 @@ class Facturas():
             print('Error al cargar precio de venta:', e)
 
     def totalLineaVenta(self=None):
+        '''
+        Módulo para calcular el total de una línea de venta
+
+        :param: None
+
+        :return: None
+        '''
         try:
             if str(var.ui.txtNumFactura.text()) == '':
                 msg = QtWidgets.QMessageBox()
@@ -112,6 +149,13 @@ class Facturas():
             print('Error al cargar total de la linea de venta:', e)
 
     def guardarFactura(self):
+        '''
+        Módulo para guardar una factura en la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtDNIFactura.text() == '' or var.ui.txtMatriculaFactura.text() == '':
                 msg = QtWidgets.QMessageBox()
@@ -134,6 +178,13 @@ class Facturas():
             print('Error al guardar la imprimirFactura:', error)
 
     def borraFactura(self):
+        '''
+        Módulo para borrar un registro de factura de la base de datos
+
+        :param: self
+
+        :return: None
+        '''
         try:
             if var.ui.txtDNIFactura.text() == '' or var.ui.txtMatriculaFactura.text() == '':
                 msg = QtWidgets.QMessageBox()
