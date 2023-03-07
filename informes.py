@@ -159,7 +159,7 @@ class Informes:
             dni = dni[:i] + '*' + dni[i+1:]
         return dni
 
-    def factura(self):
+    def imprimirFactura(self):
         try:
             var.report = canvas.Canvas('informes/factura.pdf')
             titulo = 'FACTURA'
@@ -192,6 +192,60 @@ class Informes:
                 var.report.drawString(55, 615, 'Municipio: ' + str(cliente[4]))
                 var.report.drawString(55, 600, 'Provincia: ' + str(cliente[3]))
 
+                items = ['ID Venta', 'Concepto', 'Precio', 'Unidades', 'Subtotal']
+                var.report.setFont('Helvetica-Bold', size=10)
+                var.report.drawString(60, 560, str(items[0]))
+                var.report.drawString(120, 560, str(items[1]))
+                var.report.drawString(270, 560, str(items[2]))
+                var.report.drawString(370, 560, str(items[3]))
+                var.report.drawString(470, 560, str(items[4]))
+                var.report.line(50, 550, 525, 550)
+
+                codigo = var.ui.txtNumFactura.text()
+                query = QtSql.QSqlQuery()
+                query.prepare('select id_venta, codigo_servicio, precio, unidades '
+                              'from ventas where codigo_factura = :codigo')
+                query.bindValue(':codigo', str(codigo))
+
+                var.report.setFont('Helvetica', size=8)
+                if query.exec():
+                    i = 80
+                    j = 535
+                    while query.next():
+                        if j <= 80:
+                            var.report.drawString(460, 90, 'Página siguiente...')
+                            var.report.showPage()
+                            Informes.top_Informe(titulo)
+                            Informes.pie_Informe(titulo)
+                            var.report.setFont('Helvetica-Bold', size=10)
+                            var.report.drawString(60, 675, str(items[0]))
+                            var.report.drawString(120, 675, str(items[1]))
+                            var.report.drawString(270, 675, str(items[2]))
+                            var.report.drawString(370, 675, str(items[3]))
+                            var.report.drawString(470, 675, str(items[4]))
+                            var.report.line(50, 670, 525, 670)
+                            i = 55
+                            j = 660
+
+                        codigo_servicio = str(query.value(1))
+                        query2 = QtSql.QSqlQuery()
+                        query2.prepare('select concepto '
+                                       'from servicios where codigo = :codigo')
+                        query2.bindValue(':codigo', codigo_servicio)
+
+                        if query2.exec():
+                            while query2.next():
+                                concepto = str(query2.value(0))
+                                print(concepto)
+                                var.report.setFont('Helvetica', size=8)
+                                var.report.drawString(i, j, str(query.value(0)))
+                                var.report.drawString(i + 55, j, str(concepto))
+                                var.report.drawString(i + 200, j, str(query.value(2)))
+                                var.report.drawString(i + 305, j, str(query.value(3)))
+                                var.report.drawString(i + 410, j, str())
+                                j = j - 20
+
+
                 #para abrir la factura
                 var.report.save()
                 rootPath = '.\\informes'
@@ -200,4 +254,4 @@ class Informes:
                         os.startfile('%s\%s' % (rootPath, file))
 
         except Exception as e:
-            print('Error al procesar la factura:', e)
+            print('Error al procesar imprimirFactura:', e)

@@ -329,7 +329,7 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Error al borrar factura en conexion:', error)
+            print('Error al borrar imprimirFactura en conexion:', error)
 
 
     def modificarDatosCliente(modcli, modcar):
@@ -540,7 +540,7 @@ class Conexion():
             return datos
 
         except Exception as e:
-            print('Error al cargar resto de datos de la factura', e)
+            print('Error al cargar resto de datos de la imprimirFactura', e)
 
 
     def obtenerPrecio(servicio):
@@ -592,7 +592,7 @@ class Conexion():
             print(factura)
 
         except Exception as e:
-            print('Error al buscar factura:', e)
+            print('Error al buscar imprimirFactura:', e)
 
 
     @staticmethod
@@ -619,14 +619,14 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Problemas en la conexión al dar de alta la factura:', error)
+            print('Problemas en la conexión al dar de alta la imprimirFactura:', error)
 
     def cargarLineasVenta(codigo_factura):
         """
 
-        Carga las lineas de venta de una factura en la tabla de ventas
+        Carga las lineas de venta de una imprimirFactura en la tabla de ventas
 
-        :param codigo_factura: el codigo de la factura
+        :param codigo_factura: el codigo de la imprimirFactura
 
         :return: None
         """

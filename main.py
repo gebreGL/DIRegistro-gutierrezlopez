@@ -107,7 +107,7 @@ class Main(QtWidgets.QMainWindow):
         var.ui.btnExportarServizo.clicked.connect(events.Eventos.exportarServicio)
         var.ui.btnDeleteServizo.clicked.connect(servicios.Servicios.borraServ)
 
-        var.ui.btnImprimir.clicked.connect(informes.Informes.factura)
+        var.ui.btnImprimir.clicked.connect(informes.Informes.imprimirFactura)
         var.ui.btnDeleteFactura.clicked.connect(facturas.Facturas.borraFactura)
 
         var.ui.btnBuscarFactura.clicked.connect(conexion.Conexion.buscarFactura)
