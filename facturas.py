@@ -25,7 +25,7 @@ class Facturas():
                 i.setText('')
 
         except Exception as error:
-            print('Error al limpiar imprimirFactura:', error)
+            print('Error al limpiar factura:', error)
 
     def cargaFactura(self=None):
         '''
@@ -55,7 +55,7 @@ class Facturas():
             conexion.Conexion.cargarLineasVenta(row[0])
 
         except Exception as e:
-            print('Error carga imprimirFactura:', e)
+            print('Error carga factura:', e)
 
 
     def cargaLineaVenta(index):
@@ -123,7 +123,7 @@ class Facturas():
                 msg = QtWidgets.QMessageBox()
                 msg.setWindowTitle('Aviso')
                 msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                msg.setText('Debe seleccionar una imprimirFactura')
+                msg.setText('Debe seleccionar una factura')
                 msg.exec()
             else:
                 venta = []
@@ -174,7 +174,7 @@ class Facturas():
                 print(newFac)
 
         except Exception as error:
-            print('Error al guardar la imprimirFactura:', error)
+            print('Error al guardar la factura:', error)
 
     def borraFactura(self):
         '''

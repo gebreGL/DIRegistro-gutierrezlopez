@@ -408,7 +408,7 @@ class Conexion():
                 msg.exec()
 
         except Exception as error:
-            print('Error al borrar imprimirFactura en conexion:', error)
+            print('Error al borrar factura en conexion:', error)
 
 
 
@@ -661,7 +661,7 @@ class Conexion():
             return datos
 
         except Exception as e:
-            print('Error al cargar resto de datos de la imprimirFactura', e)
+            print('Error al cargar resto de datos de la factura', e)
 
 
     def obtenerPrecio(servicio):
@@ -729,7 +729,7 @@ class Conexion():
                     msg.exec()
 
         except Exception as e:
-            print('Error al buscar imprimirFactura:', e)
+            print('Error al buscar factura:', e)
 
 
     @staticmethod
@@ -860,9 +860,9 @@ class Conexion():
 
     def borrarLineaVenta(codigo_venta):
         '''
-        Método estático para dar de alta en la base de datos a un servicio
+        Método que borra una linea de venta
 
-        :param: codigo_servicio: entero que almacena el valor del código de una venta
+        :param: codigo_venta: entero que almacena el valor del código de una venta
 
         :return: None
         '''
