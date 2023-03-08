@@ -711,41 +711,22 @@ class Conexion():
                 msg.exec()
             else:
                 query = QtSql.QSqlQuery()
-                query.prepare('select idfac, dni from facturas where idfac = :parametro')
+                query.prepare('select idfac, dni from facturas where idfac = :parametro or dni = :parametro')
                 query.bindValue(':parametro', str(parametro))
-                if not query.isActive():
-                    query2 = QtSql.QSqlQuery()
-                    query2.prepare('select idfac, dni from facturas where dni = :parametro')
-                    query2.bindValue(':parametro', str(parametro))
-                    if query2.exec():
-                        while query2.next():
-                            var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
-                            var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query2.value(0))))
-                            var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query2.value(1))))
-                            var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                            var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                            index += 1
-                    else:
-                        msg = QtWidgets.QMessageBox()
-                        msg.setWindowTitle('Aviso')
-                        msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                        msg.setText(query.lastError().text())
-                        msg.exec()
+                if  query.exec():
+                    while query.next():
+                        var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
+                        var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
+                        var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
+                        var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                        var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                        index += 1
                 else:
-                    if query.exec():
-                        while query.next():
-                            var.ui.tabFacturas.setRowCount(index + 1)  # Creamos la fila
-                            var.ui.tabFacturas.setItem(index, 0, QtWidgets.QTableWidgetItem(str(query.value(0))))
-                            var.ui.tabFacturas.setItem(index, 1, QtWidgets.QTableWidgetItem(str(query.value(1))))
-                            var.ui.tabFacturas.item(index, 0).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                            var.ui.tabFacturas.item(index, 1).setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                            index += 1
-                    else:
-                        msg = QtWidgets.QMessageBox()
-                        msg.setWindowTitle('Aviso')
-                        msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
-                        msg.setText(query.lastError().text())
-                        msg.exec()
+                    msg = QtWidgets.QMessageBox()
+                    msg.setWindowTitle('Aviso')
+                    msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+                    msg.setText(query.lastError().text())
+                    msg.exec()
 
         except Exception as e:
             print('Error al buscar imprimirFactura:', e)

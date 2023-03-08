@@ -45,7 +45,6 @@ class Facturas():
                 dato.setText(row[i])
 
             var.ui.txtNumFactura.setText(row[0])
-            print(var.ui.txtNumFactura.text())
             var.ui.txtDNIFactura.setText(row[1])
 
             restoDatos = conexion.Conexion.restoDatosFactura(row[0])
